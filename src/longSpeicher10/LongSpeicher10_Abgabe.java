@@ -9,7 +9,10 @@ package longSpeicher10;
 	Implementierung: Als unsortierte Reihung.
 	------------------------------------------------------------------------ */
 	import static java.lang.String.format;
-	import java.util.Arrays;
+
+import java.util.Arrays;
+
+import abstractLongSpeicher.AbstractLongSpeicher;
 	
 	class LongSpeicher10_Abgabe extends AbstractLongSpeicher {
 	   // ---------------------------------------------------------------------

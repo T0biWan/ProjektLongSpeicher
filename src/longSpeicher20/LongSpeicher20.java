@@ -13,7 +13,7 @@ import static java.lang.String.format;
 
 import java.util.Arrays;
 
-import longSpeicher10.AbstractLongSpeicher;
+import abstractLongSpeicher.AbstractLongSpeicher;
 
 class LongSpeicher20 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
