@@ -91,7 +91,7 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		// Liefert false, falls dieser Speicher bereits voll ist.
 		// Fuegt sonst n in diesen Speicher ein und liefert true.
 
-		if (lbi == speicher.length - 1) return false;
+		if (lbi >= speicher.length - 1) return false;
 		int index = index(n);
 //		if (speicher[index] == n && n != 0) return true;
 
