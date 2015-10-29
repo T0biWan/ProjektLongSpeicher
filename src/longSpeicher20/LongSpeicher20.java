@@ -32,9 +32,7 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		   if(speicher[i] == n) return i;
 	   }
 	   
-      // Liefert -1, wenn n nicht in diesem Speicher vorkommt.
-      // Liefert sonst einen Index i, an dem ein n im Speicher steht
-      // (d.h. fuer diesen Index i gilt: speicher[i] == n).
+      
 
       return -1; 
    }
