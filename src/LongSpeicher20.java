@@ -20,19 +20,8 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 
 	public LongSpeicher20(int length) {
 		
-		
-		
-		
 		speicher = new long[length];
-		
-		// Der Speicher wird mit Werten gefüllt
-		
-//		for(int i=0; i < speicher.length; i++){
-//			speicher[i] = 10*(i+1);
-//		}
-		
-		
-		
+	
 	}
 
 	// ---------------------------------------------------------------------
@@ -48,6 +37,7 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		// 1. der speicher voll ist (d.h. lbi == speicher.length-1 gilt) und
 		// 2. n groesser ist als alle long-Werte in diesem Speicher.
 		// Binaer gesucht wird in der Teilreihung speicher[von..bis]:
+	   
 		int von = 0;
 		int bis = lbi;
 		while (von <= bis) {
@@ -103,20 +93,7 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		lbi++;
 		
 		return true;
-		
-		// test
-		// int testWert = 0, indexHelper = 1, value = 5;
-		// boolean tryx = true;
-		// for(int i=0; i <= index ; i++)
-		// {
-		// if(i >= testWert && i <= lbi)
-		// {
-		// if(tryx == true){speicher[i] = value; tryx = false;}
-		//
-		// speicher[i+indexHelper] = speicher[i];
-		// }
-		//
-		// }
+
 	}
 
 	// ---------------------------------------------------------------------
@@ -180,6 +157,8 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		lsa.print("lsa");
 		printf("lsa.fuegeEin(60): %b%n", lsa.fuegeEin(60));
 		lsa.print("lsa");
+		printf("lsa.fuegeEin(15): %b%n", lsa.fuegeEin(15));
+      lsa.print("lsa");
 
 		printf("-----------------------------------%n");
 		printf("Positive Tests mit istDrin:%n%n");
@@ -206,6 +185,12 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 
 		printf("lsa.index(60): %d%n", lsa.index(60));
 		lsa.print("lsa");
+		printf("lsa.index(70): %d%n", lsa.index(70));
+      lsa.print("lsa");
+      printf("lsa.index(10): %d%n", lsa.index(10));
+      lsa.print("lsa");
+		printf("lsa.index(15): %d%n", lsa.index(15));
+      lsa.print("lsa");
 
 		printf("-----------------------------------%n");
 		printf("Tests mit Löschen:%n%n");
