@@ -37,6 +37,7 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		// 1. der speicher voll ist (d.h. lbi == speicher.length-1 gilt) und
 		// 2. n groesser ist als alle long-Werte in diesem Speicher.
 		// Binaer gesucht wird in der Teilreihung speicher[von..bis]:
+	   // lbi zeigt jetzt immer auf die größte zahl, die im array ist
 	   
 		int von = 0;
 		int bis = lbi;
@@ -120,6 +121,7 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		
 	   int index = index(n);
 		return (index <= lbi && speicher[index] == n);
+	
 	}
 
 	// ---------------------------------------------------------------------
