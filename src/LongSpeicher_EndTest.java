@@ -1,23 +1,24 @@
+
 /* ------------------------------------------------------------------------
  * LongSpeicher_EndTest.java
- * Mit diesem JUnit 4 Testprogramm kann man die Abnahmetests fÃ¼r die
- * Klassen LongSpeicher10 bis LongSpeicher60 durchfÃ¼hren.
+ * Mit diesem JUnit 4 Testprogramm kann man die Abnahmetests für die 
+ * Klassen LongSpeicher10 bis LongSpeicher60 durchführen.
  *
  * DIESES TESTPROGRAMM SOLLTE NICHT SCHON WAEHREND DER ENTWICKLUNG EINER
  * KLASSE BENUTZT WERDEN (DAZU IST ES KAUM GEEIGNET, DA ES VIEL ZU WENIG
  * HILFREICHE MELDUNGEN AUSGIBT).
- *
+ * 
  * Waehrend der Entwicklung einer Klasse K sollten Sie K durch geeignete
  * Befehle in der main-Methode testen. Diese Befehle sollten moeglichst
- * viele hilfreiche Meldungen ausgeben. Erst wenn Sie sicher sind, dass K
+ * viele hilfreiche Meldungen ausgeben. Erst wenn Sie sicher sind, dass K 
  * korrekt ist (und Sie viele hilfreiche Meldungen gesehen haben, die
  * das bestaetigen), sollten Sie einen Endtest mit dem vorliegenden
- * Testprogramm durchfÃ¼hren.
- *
+ * Testprogramm durchführen.
+ * 
  * Um dieses Testprogramm auf eine Klasse K anzuwenden, muss man den
  * vollen Namen der Klasse K als Zielwert der final-Variablen KLASSEN_NAME
  * vereinbaren (siehe ca. 23 Zeilen weiter unten).
- *
+ * 
  * Dieses Test-Programm wendet auf die Klasse LongSpeicher51 keine Tests
  * an, in denen Doppelgaenger vorkommen (denn LongSpeicher51 darf und
  * sollte, als einzige Ausnahme, Doppelgaenger ablehnen).
@@ -59,7 +60,7 @@ public class LongSpeicher_EndTest {
          // kob soll auf das Class-Objekt der zu testenden Klasse zeigen:
          kob = Class.forName(KLASSEN_NAME);
 
-         // Erweitert die zu testende Klasse die Klasse
+         // Erweitert die zu testende Klasse die Klasse 
          // AbstractLongSpeicher?
          if (!AbstractLongSpeicher.class.isAssignableFrom(kob)) {
             printf("Die Klasse %s erweitert nicht "
@@ -123,8 +124,8 @@ public class LongSpeicher_EndTest {
    // Der einzige Konstruktor von kob:
    static Constructor<?> kon;
    // Sind Sammlungen vom Typ kob begrenzt?
-   static boolean istBegrenzt =
-      KLASSEN_NAME.endsWith("LongSpeicher10") ||
+   static boolean istBegrenzt = 
+      KLASSEN_NAME.endsWith("LongSpeicher10") || 
       KLASSEN_NAME.endsWith("LongSpeicher20");
    // Sollte der Konstruktor der zu testenden Klasse einen
    // Parameter (vom Typ int) haben?
@@ -140,9 +141,9 @@ public class LongSpeicher_EndTest {
    static final int ARGC = 100; // fuer lsc
 
    // Die zu testenden Long-Speicher (die anfangs alle leer sind):
-   AbstractLongSpeicher lsa;
-   AbstractLongSpeicher lsb;
-   AbstractLongSpeicher lsc;
+   AbstractLongSpeicher lsa; 
+   AbstractLongSpeicher lsb; 
+   AbstractLongSpeicher lsc; 
    
    // Eine Reihungen mit ARGA vielen nicht-sortierten long-Werten:
    static final long[] lra = {30, 10, 50, 20, 40};
@@ -294,7 +295,7 @@ public class LongSpeicher_EndTest {
       // Fuer den Fall, dass lsb sortiert ist, wird versucht,
       // VOR allen schon vorhandenen long-Werten, ZWISCHEN je zwei Werten
       // und NACH allen vorhandenen Werten einen weiteren Wert einzufuegen.
-      // Falls die Sammlung lsa begrenzt ist, sollte das Einfuegen an
+      // Falls die Sammlung lsa begrenzt ist, sollte das Einfuegen an 
       // keiner Stelle gelingen. Falls lsa nicht begrenzt ist, sollte das
       // ueberall gelingen.
 
@@ -438,7 +439,7 @@ public class LongSpeicher_EndTest {
       // Baeumen gedacht (aber loesche-Methoden in anderen Klassen sollten
       // diesen Test auch bestehen).
       // In die Sammlung lsb werden Zahlen so eingefuegt, dass ein
-      // interessanter binaerer Baum entsteht, bei dem einige Knoten
+      // interessanter binaerer Baum entsteht, bei dem einige Knoten 
       // "schwierig zu loeschen sind" (weil sie 2 nicht-leere Unterbaeume
       // haben).
 
@@ -503,10 +504,10 @@ public class LongSpeicher_EndTest {
    // ---------------------------------------------------------------------
    @Test
    public void test_08() {
-      // Dieser Test ist vor allem fuer Hash-Tabellen gedacht, bei denen
-      // aus den long-Werten Indizes einer Reihung (von Listen) berechnet
+      // Dieser Test ist vor allem fuer Hash-Tabellen gedacht, bei denen 
+      // aus den long-Werten Indizes einer Reihung (von Listen) berechnet 
       // werden. Das koennte bei sehr grossen oder sehr kleinen long-Werten
-      // schief gehen. Alle anderen (nicht-Hash-Tabellen-) Sammlungen
+      // schief gehen. Alle anderen (nicht-Hash-Tabellen-) Sammlungen 
       // sollten diesen Test aber auch bestehen.     
 
       long n1 = +123_456_789_012L;
@@ -527,7 +528,7 @@ public class LongSpeicher_EndTest {
       assertEquals("lsb.fuegeEin(n7)", true,  lsb.fuegeEin(n7));
       assertEquals("lsb.fuegeEin(n8)", true,  lsb.fuegeEin(n8));
       
-      // Wenn man die groÃŸen Zahlen mal sehen moechte:
+      // Wenn man die großen Zahlen mal sehen moechte:
       if(TST1) printf("%s%n", lsb.toString());
 
       assertEquals("lsb.istDrin(n1)",  true,  lsb.istDrin(n1));
@@ -556,7 +557,7 @@ public class LongSpeicher_EndTest {
       // Zufallszahl n werden die Methoden fuegeEin, istDrin und loesche
       // angewendet. All diese Methodenaufrufe sollten gelingen.
       // Die Methode rand.nextLong liefert erst nach Billionen von
-      // Aufrufen einen Doppelgaenger (so oft wird die Methode hier nicht
+      // Aufrufen einen Doppelgaenger (so oft wird die Methode hier nicht 
       // aufgerufen).
    
       Random rand = new Random();
@@ -664,7 +665,7 @@ public class LongSpeicher_EndTest {
    @Test
    public void test_12() {
       // Ein schwierigerer Test der toString-Methode:
-      // Wenn eine Sammlung lsa mehrere verschiedene Zahlen enthaelt,
+      // Wenn eine Sammlung lsa mehrere verschiedene Zahlen enthaelt, 
       // haengt deren Reihenfolge von der Stuktur der Sammlung ab
       // (sortiert oder nicht sortiert, Reihung oder Liste etc.)
       //
@@ -696,7 +697,7 @@ public class LongSpeicher_EndTest {
  
       // Die folgenden Zahlen muessen jetzt in lsa.toString() enthalten
       // sein, aber nicht notwendig in dieser Reihenfolge:
-      String[] sr20 = {"10", "20", "30", "444", "0"};
+      String[] sr20 = {"10", "20", "30", "444", "0"}; 
       
       // Aus s21 alle in sr20 enthaltenen Zahlen entfernen:
       String s21 = lsa.toString();

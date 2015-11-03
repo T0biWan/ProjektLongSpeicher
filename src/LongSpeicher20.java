@@ -1,12 +1,13 @@
-// Datei LongSpeicher10.java
+
+
+// Datei LongSpeicher20.java
 /* ------------------------------------------------------------------------
- Jedes Objekt der Klasse LongSpeicher10 ist ein Speicher, in dem man
+ Jedes Objekt der Klasse LongSpeicher20 ist ein Speicher, in dem man
  long-Werte sammeln (einfuegen, entfernen, suchen) kann.
  Doppelgaenger sind erlaubt.
  ---------------------------------------------------------------------------
- Implementierung: Als unsortierte Reihung.
+ Implementierung: Als sortierte Reihung.
  ------------------------------------------------------------------------ */
-import static java.lang.String.format;
 
 import java.util.Arrays;
 
@@ -19,9 +20,14 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 	private int lbi = -1; // letzter belegter Index
 
 	public LongSpeicher20(int length) {
-		
 		speicher = new long[length];
-	
+		
+		/********************************************************************
+		 * TESTKONSTRUKTOR
+		for (int index = 0; index < length; index++)
+		speicher[index] = 10 * (index + 1);
+		lbi = length-1;
+		********************************************************************/
 	}
 
 	// ---------------------------------------------------------------------
@@ -36,26 +42,33 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		// (und somit kein Index von speicher), und zwar wenn
 		// 1. der speicher voll ist (d.h. lbi == speicher.length-1 gilt) und
 		// 2. n groesser ist als alle long-Werte in diesem Speicher.
-		// Binaer gesucht wird in der Teilreihung speicher[von..bis]:
-	   
+
 		int von = 0;
 		int bis = lbi;
+
 		while (von <= bis) {
 			int mitte = von + (bis - von) / 2;
+
 			if (gt(n, speicher[mitte])) {
-				von = mitte + 1; // rechts weitersuchen
-			} else if (lt(n, speicher[mitte])) {
-				bis = mitte - 1;// links weitersuchen
-			} else {
-				return mitte; // hier gilt: eq(n, speicher[mitte])
+				von = mitte + 1;
 			}
-		}
+
+			else if (lt(n, speicher[mitte])) {
+				bis = mitte - 1;
+			}
+
+			else {
+				return mitte;
+			}// hier gilt: eq(n, speicher[mitte])
+
+		}//hier endet WHILESCHLEIFE
+
 		return von; // n steht nicht im speicher
 	}
 
+	// ---------------------------------------------------------------------
 	@Override
 	public String toString() {
-
 		// Liefert eine String-Darstellung dieses Speichers. Beispiele:
 		// // Anzahl der long-Werte im Speicher:
 		// "[]" // 0
@@ -63,33 +76,34 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		// "[20, 30, 10]" // 3
 
 		if (lbi == -1) return "[]";
-		StringBuilder sb = new StringBuilder();
-		sb.append("[" + speicher[0]);
-		for (int i = 1; i <= lbi; i++) {
-			sb.append(", " + speicher[i]);
-		}
-		sb.append("]");
 
-		return sb.toString();
+		StringBuilder sb = new StringBuilder("[" + speicher[0]);
+		for (int index = 1; index <= lbi; index++) {
+			sb.append(", " + speicher[index]);
+		}
+		return sb.toString() + "]";
+
 	}
 
 	// ---------------------------------------------------------------------
 	@Override
 	public boolean fuegeEin(long n) {
-
-		// Liefert false, falls dieser Speicher bereits voll ist.
-		// Fuegt sonst n in diesen Speicher ein und liefert true.
-
-		if (lbi >= speicher.length - 1) return false;
-		int index = index(n);
-
-		for (int i = lbi; i >= index; i--) {
-			speicher[i + 1] = speicher[i];
-		}
+		//		// Liefert false, falls dieser Speicher bereits voll ist.
+		//		// Fuegt sonst n in diesen Speicher ein und liefert true.
 		
+
+		int index = index(n);
+				
+		if (lbi + 1 == speicher.length) { return false; }
+
+
+		for (int i = lbi+1; i> index; i--) {
+			speicher[i] = speicher[i-1];
+
+		}
+
 		speicher[index] = n;
 		lbi++;
-		
 		return true;
 
 	}
@@ -97,29 +111,30 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 	// ---------------------------------------------------------------------
 	@Override
 	public boolean loesche(long n) {
-
 		// Entfernt ein n aus diesem Speicher, und liefert true.
-		// Liefert false falls n in diesem Speicher nicht vorkommt.
-
-		int index = index(n);
-		if (index > lbi) return false;
-		if (index >= speicher.length || speicher[index] != n) return false;
-		for (int i = index; i < lbi; i++) {
-			if(i+1 <= lbi) speicher[i] = speicher[i + 1];
-		}
+		// Liefert false falls n in diesem Speicher nicht vorkommt.	
+	
+	
+		 if (!istDrin(n)){ return false;}
 		
-		lbi--;
-		return true;
+		 for(int i=index(n); i < lbi; i++) {
+		 speicher[i]=speicher[i+1];
+		 }
+		
+		 speicher[lbi--] = n;
+		 return true;
+
 	}
 
 	// ---------------------------------------------------------------------
 	@Override
-	public boolean istDrin(long n) {
-	   
+	public boolean istDrin(long zahl) {
 		// Liefert true wenn n in diesem Speicher vorkommt, und sonst false.
-		
-	   int index = index(n);
-		return (index <= lbi && speicher[index] == n);
+	
+		int einsetzen = index(zahl);
+
+		return (einsetzen < lbi + 1 && speicher[einsetzen] == zahl);
+
 	}
 
 	// ---------------------------------------------------------------------
@@ -133,83 +148,70 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 
 	// ---------------------------------------------------------------------
 	static public void main(String[] sonja) {
+		printf("LongSpeicher20: Jetzt geht es los!%n");
+		printf("-----------------------------------%n");
+		printf("Test Konstruktor und toString:%n%n");
+
 		printf("LongSpeicher10: Jetzt geht es los!%n");
 		printf("-----------------------------------%n");
 		printf("Test Konstruktor und toString:%n%n");
+		printf("LongSpeicher20 lsa = new LongSpeicher20(4);");
+		System.out.println();
 		LongSpeicher20 lsa = new LongSpeicher20(4);
 		lsa.print("lsa");
 		printf("-----------------------------------%n");
 		printf("Positive Tests mit fuegeEin:%n%n");
+		printf("lsa.fuegeEin(15): %b%n", lsa.fuegeEin(15));
+		lsa.print("lsa");
+		printf("lsa.fuegeEin(10): %b%n", lsa.fuegeEin(10));
+		lsa.print("lsa");
+		printf("lsa.fuegeEin(5): %b%n", lsa.fuegeEin(5));
+		lsa.print("lsa");
+		printf("lsa.fuegeEin(3): %b%n", lsa.fuegeEin(3));
+		lsa.print("lsa");
+		printf("-----------------------------------%n");
+		
+		System.out.println("fuegeEin()-TEST NEGATIV");
+		System.out.println("-> ARRAY kann nur 4 Einträge haben ");
+		System.out.println("-> LongSpeicher20 lsa = new LongSpeicher20(4); ");
+		System.out.println("-> hat bereits 4 Einträge");
+		System.out.println();
+		printf("lsa.fuegeEin(20): %b%n", lsa.fuegeEin(20));
+		lsa.print("lsa");
+		System.out.println();
 		printf("lsa.fuegeEin(25): %b%n", lsa.fuegeEin(25));
 		lsa.print("lsa");
-		printf("lsa.fuegeEin(15): %b%n", lsa.fuegeEin(15));
-		lsa.print("lsa");
-		printf("lsa.fuegeEin(40): %b%n", lsa.fuegeEin(40));
-		lsa.print("lsa");
-		printf("lsa.fuegeEin(40): %b%n", lsa.fuegeEin(40));
-		lsa.print("lsa");
-
+		System.out.println();
+		
 		printf("-----------------------------------%n");
-		printf("Negative Tests mit fuegeEin:%n%n");
-
-		printf("lsa.fuegeEin(50): %b%n", lsa.fuegeEin(50));
-		lsa.print("lsa");
-		printf("lsa.fuegeEin(60): %b%n", lsa.fuegeEin(60));
-		lsa.print("lsa");
-		printf("lsa.fuegeEin(15): %b%n", lsa.fuegeEin(15));
-      lsa.print("lsa");
-
+		System.out.println("istDrin()-TEST-POSITIV");
+		printf("lsa.istDrin(5): %b%n", lsa.istDrin(5));
+		printf("lsa.istDrin(10): %b%n", lsa.istDrin(10));
+		System.out.println();
+			
+		System.out.println("istDrin()-TEST-NEGATIV");
+		printf("lsa.istDrin(33): %b%n", lsa.istDrin(33));
+		printf("lsa.istDrin(14): %b%n", lsa.istDrin(14));
+		System.out.println();
+			
 		printf("-----------------------------------%n");
-		printf("Positive Tests mit istDrin:%n%n");
-
-		printf("lsa.istDrin(25): %b%n", lsa.istDrin(25));
+		System.out.println("loesche()-TEST-POSITIV");
 		lsa.print("lsa");
-
+		printf("lsa.loesche(5): %b%n", lsa.loesche(5));
+		lsa.print("lsa");
+		printf("lsa.loesche(10): %b%n", lsa.loesche(10));
+		lsa.print("lsa");
+		printf("lsa.loesche(15): %b%n", lsa.loesche(15));
+		lsa.print("lsa");
+		System.out.println();
+				
+		System.out.println("loesche()-TEST NEGATIV");
+		printf("lsa.loesche(15): %b%n", lsa.loesche(15));
+		printf("lsa.loesche(2): %b%n", lsa.loesche(2));
+		System.out.println();
+		
 		printf("-----------------------------------%n");
-		printf("Negative Tests mit istDrin:%n%n");
-
-		printf("lsa.istDrin(50): %b%n", lsa.istDrin(50));
-		lsa.print("lsa");
-
-		printf("-----------------------------------%n");
-		printf("Tests mit Index, der existiert:%n%n");
-
-		printf("lsa.index(25): %d%n", lsa.index(25));
-		lsa.print("lsa");
-		printf("lsa.index(15): %d%n", lsa.index(15));
-		lsa.print("lsa");
-
-		printf("-----------------------------------%n");
-		printf("Tests mit Index, der nicht existiert:%n%n");
-
-		printf("lsa.index(60): %d%n", lsa.index(60));
-		lsa.print("lsa");
-		printf("lsa.index(70): %d%n", lsa.index(70));
-      lsa.print("lsa");
-      printf("lsa.index(10): %d%n", lsa.index(10));
-      lsa.print("lsa");
-		printf("lsa.index(15): %d%n", lsa.index(15));
-      lsa.print("lsa");
-
-		printf("-----------------------------------%n");
-		printf("Tests mit LÃ¶schen:%n%n");
-
-		printf("lsa.loesche(25): %b%n", lsa.loesche(25));
-		lsa.print("lsa");
-		printf("lsa.loesche(50): %b%n", lsa.loesche(50));
-		lsa.print("lsa");
-
-		printf("-----------------------------------%n");
-		printf("-----------------------------------%n");
-		printf("LongSpeicher10: Das war's erstmal!%n%n");
-
-		// System.out.println(Integer.MAX_VALUE);
-
-		// long[] r1 = {10, 20, 30};
-		// System.out.println(r1);
-		// System.out.println(Arrays.toString(r1));
-
+		printf("LongSpeicher20: Das war's erstmal!%n%n");
 	} // main
-
-	// ---------------------------------------------------------------------
-} 
+		// ---------------------------------------------------------------------
+} // class LongSpeicher10
