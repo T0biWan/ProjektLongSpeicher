@@ -62,8 +62,7 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		// "[10]" // 1
 		// "[20, 30, 10]" // 3
 
-		if (lbi == -1)
-			return "[]";
+		if (lbi == -1) return "[]";
 		StringBuilder sb = new StringBuilder();
 		sb.append("[" + speicher[0]);
 		for (int i = 1; i <= lbi; i++) {
@@ -83,12 +82,11 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 
 		if (lbi >= speicher.length - 1) return false;
 		int index = index(n);
-//		if (speicher[index] == n && n != 0) return true;
 
 		for (int i = lbi; i >= index; i--) {
 			speicher[i + 1] = speicher[i];
-			 
 		}
+		
 		speicher[index] = n;
 		lbi++;
 		
@@ -108,8 +106,8 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		if (index >= speicher.length || speicher[index] != n) return false;
 		for (int i = index; i < lbi; i++) {
 			if(i+1 <= lbi) speicher[i] = speicher[i + 1];
-
 		}
+		
 		lbi--;
 		return true;
 	}
@@ -117,10 +115,11 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 	// ---------------------------------------------------------------------
 	@Override
 	public boolean istDrin(long n) {
+	   
 		// Liefert true wenn n in diesem Speicher vorkommt, und sonst false.
-		int index = index(n);
-		if (index <= lbi && speicher[index] == n) return true;
-		return false;
+		
+	   int index = index(n);
+		return (index <= lbi && speicher[index] == n);
 	}
 
 	// ---------------------------------------------------------------------
@@ -213,4 +212,4 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 	} // main
 
 	// ---------------------------------------------------------------------
-} // class LongSpeicher10
+} 
