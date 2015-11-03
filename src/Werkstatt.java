@@ -7,6 +7,8 @@ public class Werkstatt {
    // Attribute
    // private long [] speicher = { 2, 3, 5, 6};
    private long[] speicher;
+   // lbi ist nicht der tatsächlcih belegte index.
+   // lbi ist jetzt die füllhöhe des arrays
    public int     lbi = -1;
 
 
@@ -37,8 +39,6 @@ public class Werkstatt {
    public int index(long n) {
       int von = 0;
       int bis = lbi;
-      // lbi ist nicht der tatsächlcih belegte index.
-      // lbi ist jetzt die füllhöhe des arrays
       while (von <= bis) {
          int mitte = von + (bis - von) / 2;
          if (gt(n, speicher[mitte])) {
@@ -78,7 +78,6 @@ public class Werkstatt {
          }
          lbi++;
          return true;
-
       }
       return false;
    }
