@@ -1,5 +1,3 @@
-package longSpeicher10;
-
 	// Datei LongSpeicher10.java
 	/* ------------------------------------------------------------------------
 	Jedes Objekt der Klasse LongSpeicher10 ist ein Speicher, in dem man
@@ -11,10 +9,8 @@ package longSpeicher10;
 	import static java.lang.String.format;
 
 import java.util.Arrays;
-
-import abstractLongSpeicher.AbstractLongSpeicher;
 	
-	class LongSpeicher10_Abgabe extends AbstractLongSpeicher {
+	class LongSpeicher10 extends AbstractLongSpeicher {
 	   // ---------------------------------------------------------------------
 	   // Zum Ein-/Ausschalten von Testbefehlen:
 	   static final boolean TST1 = true;
@@ -22,18 +18,19 @@ import abstractLongSpeicher.AbstractLongSpeicher;
 	   private long[] speicher;
 	   private int    lbi = -1; // letzter belegter Index
 	
-	   public LongSpeicher10_Abgabe(int length) {
+	   public LongSpeicher10(int length) {
 	      speicher = new long[length];
 	   }
 	   // ---------------------------------------------------------------------
 	   private int index(long n) {
+		   
+		    // Liefert -1, wenn n nicht in diesem Speicher vorkommt.
+		    // Liefert sonst einen Index i, an dem ein n im Speicher steht
+		    // (d.h. fuer diesen Index i gilt: speicher[i] == n).
+		   
 		   for(int i = 0; i <= lbi; i++){
 			   if(speicher[i] == n) return i;
 		   }
-		   
-	      // Liefert -1, wenn n nicht in diesem Speicher vorkommt.
-	      // Liefert sonst einen Index i, an dem ein n im Speicher steht
-	      // (d.h. fuer diesen Index i gilt: speicher[i] == n).
 	
 	      return -1; 
 	   }
@@ -62,26 +59,25 @@ import abstractLongSpeicher.AbstractLongSpeicher;
 	   @Override
 	   public boolean fuegeEin(long n) {
 		   
+		    // Liefert false, falls dieser Speicher bereits voll ist.
+		    // Fuegt sonst n in diesen Speicher ein und liefert true.
+		   
 		   if(lbi >= speicher.length-1)  return false; 
 		   speicher[++lbi] = n;
-		   
-	      // Liefert false, falls dieser Speicher bereits voll ist.
-	      // Fuegt sonst n in diesen Speicher ein und liefert true.
 	
 	      return true; 
 	   }
 	   // ---------------------------------------------------------------------
 	   @Override
 	   public boolean loesche(long n) {
+			  
+		      // Entfernt ein n aus diesem Speicher, und liefert true.
+		      // Liefert false falls n in diesem Speicher nicht vorkommt.
 		   
 		   if(index(n) == -1) return false;
-		   speicher[index(n)] = speicher[lbi];
-		   lbi--;
-		   
-	      // Entfernt ein n aus diesem Speicher, und liefert true.
-	      // Liefert false falls n in diesem Speicher nicht vorkommt.
+		   speicher[index(n)] = speicher[lbi--];
 	
-	      return true; // MUSS ERSETZT WERDEN
+	      return true; 
 	   }
 	   // ---------------------------------------------------------------------
 	   @Override
@@ -103,7 +99,7 @@ import abstractLongSpeicher.AbstractLongSpeicher;
 	      printf("LongSpeicher10: Jetzt geht es los!%n");
 	      printf("-----------------------------------%n");
 	      printf("Test Konstruktor und toString:%n%n");
-	      LongSpeicher10_Abgabe lsa = new LongSpeicher10_Abgabe(4);
+	      LongSpeicher10 lsa = new LongSpeicher10(4);
 	      lsa.print("lsa");
 	      printf("-----------------------------------%n");
 	      printf("Positive Tests mit fuegeEin:%n%n");
@@ -151,20 +147,26 @@ import abstractLongSpeicher.AbstractLongSpeicher;
 	      lsa.print("lsa");
 	      
 	      printf("-----------------------------------%n");
-	      printf("Tests mit Löschen:%n%n");
+	      printf("Tests mit LÃ¶schen:%n%n");
 	      
 	      printf("lsa.loesche(25): %b%n", lsa.loesche(25));
 	      lsa.print("lsa");
 	      printf("lsa.loesche(50): %b%n", lsa.loesche(50));
 	      lsa.print("lsa");
 
-
 	      printf("-----------------------------------%n");
 	
 	      printf("-----------------------------------%n");
 	      printf("LongSpeicher10: Das war's erstmal!%n%n");
+	      
+	     // System.out.println(Integer.MAX_VALUE);
+	      
+//	      long[] r1 = {10, 20, 30};
+//	      System.out.println(r1);
+//	      System.out.println(Arrays.toString(r1));
 
 	   } // main
+	   
 	   
 	   // ---------------------------------------------------------------------
 	} // class LongSpeicher10
