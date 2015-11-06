@@ -103,8 +103,9 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		// Liefert false falls n in diesem Speicher nicht vorkommt.
 
 		int index = index(n);
-		if (index > lbi) return false;
-		if (index >= speicher.length || speicher[index] != n) return false;
+		
+		if (index > lbi || index >= speicher.length || speicher[index] != n) return false; 
+	
 		for (int i = index; i < lbi; i++) {
 			if(i+1 <= lbi) speicher[i] = speicher[i + 1];
 		}
