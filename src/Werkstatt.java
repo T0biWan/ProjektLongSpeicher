@@ -22,12 +22,23 @@ public class Werkstatt {
       // "[10]" // 1
       // "[20, 30, 10]" // 3
 
-      // String ausgabeString = "" + ADK.next.data + ADK.next.next.data;
+      // String ausgabeString = "[";
+      // Knoten a = ADK.next;
+      // ausgabeString += a.data + ", ";
+      // a = a.next;
+      // ausgabeString += a.data + ", ";
+      // a = a.next;
+      // ausgabeString += a.data + ", ";
+      // a = a.next;
+      // ausgabeString += a.data + ", ";
+      // a = a.next;
+      // ausgabeString += a.data;
+      // ausgabeString += "]";^
       String ausgabeString = "[";
       Knoten a = ADK.next;
       while (a != EDK) {
-         // ausgabeString = ausgabeString + a.data;
-         // a = a.next.next;
+         ausgabeString += a.data + ", ";
+         a = a.next;
       }
       ausgabeString += "]";
       return ausgabeString;

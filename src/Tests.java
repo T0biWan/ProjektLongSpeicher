@@ -6,7 +6,6 @@ public class Tests extends Werkstatt {
       for (int i = 0; i < 5; i++) {
          w.fuegeEin(i);
       }
-
       meth.pln(w.toString());
    }
 }
