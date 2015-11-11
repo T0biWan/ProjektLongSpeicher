@@ -7,5 +7,7 @@ public class Tests extends Werkstatt {
          w.fuegeEin(i);
       }
       meth.pln(w.toString());
+      w.loesche(4);
+      meth.pln(w.toString());
    }
 }
