@@ -12,21 +12,17 @@ class LongSpeicher20 extends AbstractLongSpeicher {
    // Zum Ein-/Ausschalten von Testbefehlen:
    static final boolean TST1 = true;
    // ---------------------------------------------------------------------
-   private long[]       speicher;
+   private long []      speicher;
    private int          lbi  = -1;  // letzter belegter Index
 
-
-
    public LongSpeicher20(int length) {
-      speicher = new long[length];
+      speicher = new long [length];
       // Der Speicher wird mit Werten gefüllt
 
       // for(int i=0; i < speicher.length; i++){
       // speicher[i] = 10*(i+1);
       // }
    }
-
-
 
    // ---------------------------------------------------------------------
    private int index(long n) {
@@ -45,8 +41,6 @@ class LongSpeicher20 extends AbstractLongSpeicher {
       return von; // n steht nicht im speicher
    }
 
-
-
    @Override
    public String toString() {
 
@@ -56,8 +50,7 @@ class LongSpeicher20 extends AbstractLongSpeicher {
       // "[10]" // 1
       // "[20, 30, 10]" // 3
 
-      if (lbi == -1)
-         return "[]";
+      if (lbi == -1) return "[]";
       StringBuilder sb = new StringBuilder();
       sb.append("[" + speicher[0]);
       for (int i = 1; i <= lbi; i++) {
@@ -67,8 +60,6 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 
       return sb.toString();
    }
-
-
 
    // ---------------------------------------------------------------------
    @Override
@@ -94,37 +85,29 @@ class LongSpeicher20 extends AbstractLongSpeicher {
       return false;
    }
 
-
-
    // ---------------------------------------------------------------------
    @Override
    public boolean loesche(long n) {
       if (istDrin(n)) {
+         // prinzipiell gute idee aber da index danach eh aufgerufen wird nicht
+         // so toll.
+         // erst den einfachen fall
          int index = index(n);
          for (int i = index; i <= lbi; i++) {
-            if (i + 1 <= lbi) {
-               speicher[i] = speicher[i + 1];
-            }
+            if (i + 1 <= lbi) speicher[i] = speicher[i + 1];
          }
-
          lbi--;
          return true;
       }
       return false;
    }
 
-
-
    // ---------------------------------------------------------------------
    @Override
    public boolean istDrin(long n) {
       int index = index(n);
-      if (index <= lbi && speicher[index] == n)
-         return true;
-      return false;
+      return index <= lbi && speicher[index] == n;
    }
-
-
 
    // ---------------------------------------------------------------------
    // Zum Testen:
@@ -135,10 +118,8 @@ class LongSpeicher20 extends AbstractLongSpeicher {
       printf("%s.toString(): %s%n", name, this.toString());
    }
 
-
-
    // ---------------------------------------------------------------------
-   static public void main(String[] sonja) {
+   static public void main(String [] sonja) {
       printf("LongSpeicher10: Jetzt geht es los!%n");
       printf("-----------------------------------%n");
       printf("Test Konstruktor und toString:%n%n");
