@@ -7,6 +7,10 @@ public class Methoden {
       if (testen) pln(testString);
    }
 
+   public void testPrint(boolean testen, String testString) {
+      if (testen) p(testString);
+   }
+
    public void pf(String s, Object... ob) {
       System.out.printf(s, ob);
    }

@@ -1,25 +1,25 @@
 public class Werkstatt {
    // Attribute
-   boolean      testen = true;
-   Methoden     meth   = new Methoden();
-   final Knoten EDK    = new Knoten(null, 0); // End-Dummy-Knoten
-   final Knoten ADK    = new Knoten(EDK, 0); // Anfangs-Dummy-Knoten
+   boolean      testen;
+   Methoden     meth = new Methoden();
+   final Knoten EDK  = new Knoten(null, 0); // End-Dummy-Knoten
+   final Knoten ADK  = new Knoten(EDK, 0); // Anfangs-Dummy-Knoten
+
+   public Werkstatt(boolean testen) {
+      this.testen = testen;
+   }
 
    // Methoden
    public boolean fuegeEin(long n) {
+      // F E R T I G
       ADK.next = new Knoten(ADK.next, n);
-      meth.testPrintln(testen, "Wert: " + n + " wurde eingefügt.");
+      meth.testPrintln(testen, "fuegeEin:\tWert: " + n + " wurde eingefügt.");
       return true;
    }
 
    public String toString() {
-      // Liefert eine String-Darstellung dieses Speichers.
-      // Beispiele:
-      // Anzahl der long-Werte im Speicher:
-      // "[]" // 0
-      // "[10]" // 1
-      // "[20, 30, 10]" // 3
-
+      // F E R T I G
+      meth.testPrint(testen, "toString:\t");
       String ausgabeString = "[";
       Knoten aktuellerKnoten = ADK.next;
       while (aktuellerKnoten != EDK) {
@@ -31,36 +31,54 @@ public class Werkstatt {
       return ausgabeString;
    }
 
+   public String toStringMitDummyKnoten() {
+      // F E R T I G
+      // meth.pln("[ADK]" + w.toString() + "[EDK]");
+      // meth.pln("[ " + w.ADK.data + " ]" + w.toString() + "[ " + w.EDK.data +
+      // " ]");
+      String ausgabeString = "[ADK][";
+      Knoten aktuellerKnoten = ADK.next;
+      while (aktuellerKnoten != EDK) {
+         ausgabeString += aktuellerKnoten.data;
+         aktuellerKnoten = aktuellerKnoten.next;
+         if (aktuellerKnoten != EDK) ausgabeString += ", ";
+      }
+      ausgabeString += "][EDK]";
+      ausgabeString += "\n\t\t[ " + ADK.data + " ]" + toString() + "[ " + EDK.data + " ]";
+      return ausgabeString;
+   }
+
    public Knoten vorgaenger(long n) {
-      // Liefert den ersten Knoten k in dieser unsortierten Liste fuer den
-      // gilt: k.next.data == n
-      // (d.h. k ist der Vorgaenger eines Knotens,
-      // dessen data-Komponente gleich n ist).
-      // Falls n in dieser Sammlung nicht vokommt, ist k der
-      // Vorgaenger des EDK.
+      // F E R T I G
       Knoten aktuellerKnoten = ADK;
       while (aktuellerKnoten != EDK) {
          if (aktuellerKnoten.next.data == n) return aktuellerKnoten;
          aktuellerKnoten = aktuellerKnoten.next;
       }
-
-      // Die gesuchte Zahl n in den End-Dummy-Knoten eintragen
-      // (spaetestens dort wird sie dann gefunden)
       EDK.data = n;
-
-      return null; // MUSS ERSETZT WERDEN
+      return vorgaenger(EDK.data);
    }
 
    public boolean loesche(long n) {
-      // Loescht ein Vorkommen von n in diesem Speicher, und liefert true.
-      // Liefert false falls n nicht in diesem Speicher vorkommt.
-      Knoten aktuellerKnoten = ADK.next;
+      // F E R T I G
+      Knoten aktuellerKnoten = ADK;
       while (aktuellerKnoten != EDK) {
          if (aktuellerKnoten.data == n) {
             vorgaenger(aktuellerKnoten.data).next = aktuellerKnoten.next;
-            // meth.pln(vorgaenger(aktuellerKnoten.data).data);
+            meth.testPrintln(testen, "loesche:\tWert: " + n + " wurde entfernt.");
             return true;
          }
+         aktuellerKnoten = aktuellerKnoten.next;
+      }
+      return false;
+   }
+
+   public boolean istDrin(long n) {
+      // F E R T I G
+      meth.testPrint(testen, "istDrin:\t");
+      Knoten aktuellerKnoten = ADK;
+      while (aktuellerKnoten != EDK) {
+         if (aktuellerKnoten.data == n) return true;
          aktuellerKnoten = aktuellerKnoten.next;
       }
       return false;
