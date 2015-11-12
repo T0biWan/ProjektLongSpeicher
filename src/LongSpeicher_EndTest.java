@@ -25,13 +25,13 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-
-import org.junit.BeforeClass;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.lang.reflect.Constructor;
 import java.util.Random;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+
 
 public class LongSpeicher_EndTest {
    // ---------------------------------------------------------------------
@@ -39,9 +39,10 @@ public class LongSpeicher_EndTest {
    // Wenn die zu testende Klasse zum namenlosen Paket gehoert, ist
    // ihr voller Name gleich ihrem einfachen Namen, ohne Pakete davor.
 
-   final static String KLASSEN_NAME = "LongSpeicher20";
+   final static String  KLASSEN_NAME = "LongSpeicher30";
    // ---------------------------------------------------------------------
-   static final boolean TST1 = false;
+   static final boolean TST1         = false;
+
    // ---------------------------------------------------------------------
    // Der einzige Konstruktor dieser Klasse
    // ---------------------------------------------------------------------
@@ -62,18 +63,16 @@ public class LongSpeicher_EndTest {
          // Erweitert die zu testende Klasse die Klasse
          // AbstractLongSpeicher?
          if (!AbstractLongSpeicher.class.isAssignableFrom(kob)) {
-            printf("Die Klasse %s erweitert nicht "
-               + "AbstractLongSpeicher!%n", KLASSEN_NAME);
+            printf("Die Klasse %s erweitert nicht " + "AbstractLongSpeicher!%n", KLASSEN_NAME);
             printf("Sollte sie aber!%n");
             printf("-------------------------------------------------%n");
             System.exit(1);
          }
 
          // Enthaelt die zu testende Klasse genau einen Konstruktor?
-         Constructor<?>[] kons = kob.getDeclaredConstructors();
+         Constructor<?> [] kons = kob.getDeclaredConstructors();
          if (kons.length > 1) {
-            printf("Error: Die Klasse %s enthaelt %d Konstruktoren!%n",
-               KLASSEN_NAME, kons.length);
+            printf("Error: Die Klasse %s enthaelt %d Konstruktoren!%n", KLASSEN_NAME, kons.length);
             printf("Sie sollte nur EINEN Konstruktor enthalten!%n");
             printf("-------------------------------------------------%n");
             System.exit(2);
@@ -84,10 +83,9 @@ public class LongSpeicher_EndTest {
          kon = kons[0];
 
          // Hat der Konstruktor kon genau einen Parameter?
-         Class<?>[] paramTypen = kon.getParameterTypes();
+         Class<?> [] paramTypen = kon.getParameterTypes();
          if (paramTypen.length > 1) {
-            printf("Error: Der Konstruktor %s hat %d Parameter!%n",
-               KLASSEN_NAME, paramTypen.length);
+            printf("Error: Der Konstruktor %s hat %d Parameter!%n", KLASSEN_NAME, paramTypen.length);
             printf("Er sollte EINEN Parameter vom Typ int haben!%n");
             printf("-------------------------------------------------%n");
             System.exit(3);
@@ -95,13 +93,12 @@ public class LongSpeicher_EndTest {
 
          // Ist der (einzige) Parameter von kon vom Typ int?
          if (paramTypen.length == 1 && paramTypen[0] != Integer.TYPE) {
-            printf("Error: Konstruktor %s hat Param vom Typ %s%n",
-               KLASSEN_NAME, paramTypen[0]);
+            printf("Error: Konstruktor %s hat Param vom Typ %s%n", KLASSEN_NAME, paramTypen[0]);
             printf("Der Param sollte vom Typ int sein!%n");
             printf("-------------------------------------------------%n");
             System.exit(4);
          }
-         
+
       } catch (ClassNotFoundException ex) {
          printf("Eine Klasse namens %s%n", KLASSEN_NAME);
          printf("konnte nicht gefunden werden!%n");
@@ -114,6 +111,7 @@ public class LongSpeicher_EndTest {
          System.exit(5);
       }
    }
+
    // ---------------------------------------------------------------------
    // Attribute dieses Testprogramms
    // ---------------------------------------------------------------------

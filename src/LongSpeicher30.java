@@ -10,6 +10,7 @@ class LongSpeicher30 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
    // Zum Ein-/Ausschalten von Testbefehlen:
    static final boolean TST1 = false;
+   Methoden             meth = new Methoden();
 
    // ---------------------------------------------------------------------
    // Eine (statische) geschachtelte Klasse (nested static class).
@@ -34,58 +35,68 @@ class LongSpeicher30 extends AbstractLongSpeicher {
 
    // ---------------------------------------------------------------------
    private Knoten vorgaenger(long n) {
-      // Liefert den ersten Knoten k in dieser unsortierten Liste fuer den
-      // gilt: k.next.data == n
-      // (d.h. k ist der Vorgaenger eines Knotens,
-      // dessen data-Komponente gleich n ist).
-      // Falls n in dieser Sammlung nicht vokommt, ist k der
-      // Vorgaenger des EDK.
-
-      // Die gesuchte Zahl n in den End-Dummy-Knoten eintragen
-      // (spaetestens dort wird sie dann gefunden)
+      // F E R T I G
+      Knoten aktuellerKnoten = ADK;
+      while (aktuellerKnoten != EDK) {
+         if (aktuellerKnoten.next.data == n) return aktuellerKnoten;
+         aktuellerKnoten = aktuellerKnoten.next;
+      }
       EDK.data = n;
-
-      return null; // MUSS ERSETZT WERDEN
+      return vorgaenger(EDK.data);
    }
 
    // ---------------------------------------------------------------------
    @Override
    public String toString() {
-      // Liefert eine String-Darstellung dieses Speichers. Beispiele:
-      // // Anzahl der long-Werte im Speicher:
-      // "[]" // 0
-      // "[10]" // 1
-      // "[20, 30, 10]" // 3
-
-      // "Noch nicht implementiert!"; // MUSS ERSETZT WERDEN
-      return "";
+      // F E R T I G
+      meth.testPrint(TST1, "toString:\t");
+      String ausgabeString = "[";
+      Knoten aktuellerKnoten = ADK.next;
+      while (aktuellerKnoten != EDK) {
+         ausgabeString += aktuellerKnoten.data;
+         aktuellerKnoten = aktuellerKnoten.next;
+         if (aktuellerKnoten != EDK) ausgabeString += ", ";
+      }
+      ausgabeString += "]";
+      return ausgabeString;
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean fuegeEin(long n) {
-      // Fuegt n in diesen Speicher ein und liefert true.
-      // Dafür wird ein neues Knoten-Objekt erzeugt.
-      // ADK zeigt danna uf das neu erzeugte Knotenobjekt.
+      // F E R T I G
       ADK.next = new Knoten(ADK.next, n);
+      meth.testPrint(TST1, "fuegeEin:\tWert: " + n + " wurde eingefügt.");
       return true;
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean loesche(long n) {
-      // Loescht ein Vorkommen von n in diesem Speicher, und liefert true.
-      // Liefert false falls n nicht in diesem Speicher vorkommt.
-
-      return false; // MUSS ERSETZT WERDEN
+      // F E R T I G
+      Knoten aktuellerKnoten = ADK;
+      while (aktuellerKnoten != EDK) {
+         if (aktuellerKnoten.data == n) {
+            vorgaenger(aktuellerKnoten.data).next = aktuellerKnoten.next;
+            meth.testPrint(TST1, "loesche:\tWert: " + n + " wurde entfernt.");
+            return true;
+         }
+         aktuellerKnoten = aktuellerKnoten.next;
+      }
+      return false;
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean istDrin(long n) {
-      // Liefert true wenn n in diesem Speicher vorkommt, und sonst false.
-
-      return false; // MUSS ERSETZT WERDEN
+      // F E R T I G
+      meth.testPrint(TST1, "istDrin:\t");
+      Knoten aktuellerKnoten = ADK;
+      while (aktuellerKnoten != EDK) {
+         if (aktuellerKnoten.data == n) return true;
+         aktuellerKnoten = aktuellerKnoten.next;
+      }
+      return false;
    }
 
    // ---------------------------------------------------------------------
