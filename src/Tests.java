@@ -10,6 +10,7 @@ public class Tests extends Werkstatt {
       meth.pln("Werte einfügen:");
       for (int i = 1; i < 6; i++) {
          w.fuegeEin(i);
+         meth.pln();
       }
       meth.pln();
       meth.pln("Speicher ausgeben:");
@@ -18,6 +19,7 @@ public class Tests extends Werkstatt {
       meth.pln("Werte löschen:");
       for (int i = 1; i < 6; i++) {
          w.loesche(i);
+         meth.pln();
       }
       meth.pln();
       meth.pln("Speicher ausgeben:");
@@ -26,6 +28,7 @@ public class Tests extends Werkstatt {
       meth.pln("Werte einfügen:");
       for (int i = 1; i < 6; i++) {
          w.fuegeEin(i);
+         meth.pln();
       }
       meth.pln();
       meth.pln("Speicher ausgeben:");
@@ -34,6 +37,7 @@ public class Tests extends Werkstatt {
       meth.pln("Werte in umgekehrter Reihenfolge löschen:");
       for (int i = 6; i > 0; i--) {
          w.loesche(i);
+         meth.pln();
       }
       meth.pln();
       meth.pln("Speicher ausgeben:");
@@ -42,17 +46,17 @@ public class Tests extends Werkstatt {
       meth.pln("Werte einfügen:");
       w.fuegeEin(1);
       meth.pln();
+      meth.pln();
       meth.pln("Speicher ausgeben:");
       meth.pln(w.toString());
       meth.pln();
       meth.pln("Werte löschen:");
       meth.pln("Werte die enthalten sind");
-      meth.pln(w.loesche(1));
+      meth.pln("\n" + w.loesche(1));
       meth.pln();
       meth.pln("Werte löschen:");
       meth.pln("Werte die nicht enthalten sind");
       meth.pln(w.loesche(5));
-      meth.pln();
       meth.pln();
       meth.pln("Speicher ausgeben:");
       meth.pln(w.toString());
@@ -60,12 +64,10 @@ public class Tests extends Werkstatt {
       meth.pln("Werte einfügen:");
       for (int i = 1; i < 6; i++) {
          w.fuegeEin(i);
+         meth.pln();
       }
       meth.pln();
       meth.pln("Speicher ausgeben, mit ADK und EDK:");
-      // meth.pln("[ADK]" + w.toString() + "[EDK]");
-      // meth.pln("[ " + w.ADK.data + " ]" + w.toString() + "[ " + w.EDK.data +
-      // " ]");
       meth.pln(w.toStringMitDummyKnoten());
       meth.pln();
       for (int i = 1; i < 6; i++) {

@@ -13,7 +13,7 @@ public class Werkstatt {
    public boolean fuegeEin(long n) {
       // F E R T I G
       ADK.next = new Knoten(ADK.next, n);
-      meth.testPrintln(testen, "fuegeEin:\tWert: " + n + " wurde eingefügt.");
+      meth.testPrint(testen, "fuegeEin:\tWert: " + n + " wurde eingefügt.");
       return true;
    }
 
@@ -33,9 +33,6 @@ public class Werkstatt {
 
    public String toStringMitDummyKnoten() {
       // F E R T I G
-      // meth.pln("[ADK]" + w.toString() + "[EDK]");
-      // meth.pln("[ " + w.ADK.data + " ]" + w.toString() + "[ " + w.EDK.data +
-      // " ]");
       String ausgabeString = "[ADK][";
       Knoten aktuellerKnoten = ADK.next;
       while (aktuellerKnoten != EDK) {
@@ -65,7 +62,7 @@ public class Werkstatt {
       while (aktuellerKnoten != EDK) {
          if (aktuellerKnoten.data == n) {
             vorgaenger(aktuellerKnoten.data).next = aktuellerKnoten.next;
-            meth.testPrintln(testen, "loesche:\tWert: " + n + " wurde entfernt.");
+            meth.testPrint(testen, "loesche:\tWert: " + n + " wurde entfernt.");
             return true;
          }
          aktuellerKnoten = aktuellerKnoten.next;
