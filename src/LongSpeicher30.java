@@ -40,9 +40,17 @@
 
       // Die gesuchte Zahl n in den End-Dummy-Knoten eintragen
       // (spaetestens dort wird sie dann gefunden)
+      
+      
+      // Wir suchen den Vorgänger von n
+      // Speicher n im letzten Knoten, dieser hat keinen Nachfolger mehr
+      // 
+      
       EDK.data = n;
+      Knoten k = ADK; // hier müssen wir anfangen zu suchen
+      while(k.next.data != n) k = k.next; // solange der Vorgänger nicht gefunden wurde, wird die while-Schleife durchlaufen
 
-      return null; // MUSS ERSETZT WERDEN
+      return k; // Wenn while-Schleife Bedingung nicht erfüllt, wird ADK (=k) zurückgegeben
    }
    // ---------------------------------------------------------------------
    @Override
@@ -53,14 +61,29 @@
       // "[10]"             //  1
       // "[20, 30, 10]"     //  3
 
-      return "Noch nicht implementiert!"; // MUSS ERSETZT WERDEN
+//      if (lbi == -1) return "[]";
+//      StringBuilder sb = new StringBuilder();
+//      sb.append("[" + speicher[0]);
+//      for (int i = 1; i <= lbi; i++) {
+//         sb.append(", " + speicher[i]);
+//      }
+//      sb.append("]");
+//
+//      return sb.toString();
+      
+      return null;
+    
    }
+   
+   
    // ---------------------------------------------------------------------
    @Override
    public boolean fuegeEin(long n) {
       // Fuegt n in diesen Speicher ein und liefert true.
-
-      return false; // MUSS ERSETZT WERDEN
+      
+      ADK.next = new Knoten(ADK.next, n);
+      return true; 
+      
    }
    // ---------------------------------------------------------------------
    @Override
@@ -75,7 +98,7 @@
    public boolean istDrin(long n) {
       // Liefert true wenn n in diesem Speicher vorkommt, und sonst false.
 
-      return false; // MUSS ERSETZT WERDEN
+      return vorgaenger(n) != EDK; 
    }
    // ---------------------------------------------------------------------
    // Zum Testen:
@@ -104,21 +127,35 @@
         printf("Test vorgaenger (ohne fuegeEin!):%n%n");
         LongSpeicher30 lsc = new LongSpeicher30();
         lsc.print("lsc");
-        // Einfuegen ohne fuegeEin:
+        //Einfuegen ohne fuegeEin: Reihenfolge falschrum
         Knoten adk = lsc.ADK;
-        adk.next = new Knoten(adk.next, 35);
         adk.next = new Knoten(adk.next, 25);
+        adk.next = new Knoten(adk.next, 35);
         adk.next = new Knoten(adk.next, 15);
-        lsc.print("lsc");
+        System.out.println(adk.next.data);
+        
         printf("%n");
-        printf("lsc.nach_vor(15): %s%n", lsc.nach_vor(15));
-        printf("lsc.nach_vor(25): %s%n", lsc.nach_vor(25));
-        printf("lsc.nach_vor(35): %s%n", lsc.nach_vor(35));
-        printf("lsc.nach_vor(99): %s%n", lsc.nach_vor(99));
+        
+        printf("lsc.nach_vor(15): %s%n", lsc.nach_vor(15)); // sollte die Zahl selbst ausgeben
+        printf("lsc.nach_vor(25): %s%n", lsc.nach_vor(25)); 
+        printf("lsc.nach_vor(35): %s%n", lsc.nach_vor(35)); 
+        printf("lsc.nach_vor(99): %s%n", lsc.nach_vor(99)); 
         printf("-----------------------------------%n");
+        
         printf("Test Konstruktor und toString:%n%n");
+        
+        printf("lsc.fuegeEin(15): %s%n", lsc.fuegeEin(15));
+        printf("lsc.fuegeEin(35): %s%n", lsc.fuegeEin(35));
+        printf("lsc.fuegeEin(25): %s%n", lsc.fuegeEin(25));
+        
+        lsc.print("lsc");
    
-         // Hier sollen Sie weitere aehnliche Testbefehle eifuegen
+        printf("lsc.vorgaenger(35): %s%n", lsc.vorgaenger(35).data);
+        printf("lsc.vorgaenger(15): %s%n", lsc.vorgaenger(15).data);
+        printf("lsc.vorgaenger(0): %s%n", lsc.vorgaenger(0).data); // Der Vorgänger von 0 ist EDK
+        
+        
+        
    
         printf("-----------------------------------%n");
         printf("LongSpeicher30: Das war's erstmal!%n%n");
