@@ -61,18 +61,16 @@
       // "[10]"             //  1
       // "[20, 30, 10]"     //  3
 
-//      if (lbi == -1) return "[]";
-//      StringBuilder sb = new StringBuilder();
-//      sb.append("[" + speicher[0]);
-//      for (int i = 1; i <= lbi; i++) {
-//         sb.append(", " + speicher[i]);
-//      }
-//      sb.append("]");
-//
-//      return sb.toString();
-      
-      return null;
-    
+      if (ADK.next == EDK) return "[]";
+      StringBuilder sb = new StringBuilder("[" + ADK.next.data);
+      Knoten aktuellerKnoten = ADK.next.next;
+
+      while (aktuellerKnoten != EDK) {
+         sb.append(", " + aktuellerKnoten.data);
+         aktuellerKnoten = aktuellerKnoten.next;
+      }
+      sb.append("]");
+      return sb.toString();
    }
    
    
