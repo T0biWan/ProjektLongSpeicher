@@ -41,10 +41,8 @@
       // Die gesuchte Zahl n in den End-Dummy-Knoten eintragen
       // (spaetestens dort wird sie dann gefunden)
       
-      
       // Wir suchen den Vorgänger von n
       // Speicher n im letzten Knoten, dieser hat keinen Nachfolger mehr
-      // 
       
       EDK.data = n;
       Knoten k = ADK; // hier müssen wir anfangen zu suchen
@@ -89,14 +87,20 @@
       // Loescht ein Vorkommen von n in diesem Speicher, und liefert true.
       // Liefert false falls n nicht in diesem Speicher vorkommt.
 
-      return false; // MUSS ERSETZT WERDEN
+      Knoten knoten = vorgaenger(n);
+      if(knoten.next != EDK){
+         knoten.next = knoten.next.next;
+         return true;
+      }
+      return false;
+      
    }
    // ---------------------------------------------------------------------
    @Override
    public boolean istDrin(long n) {
       // Liefert true wenn n in diesem Speicher vorkommt, und sonst false.
 
-      return vorgaenger(n) != EDK; 
+      return (vorgaenger(n).next != EDK); 
    }
    // ---------------------------------------------------------------------
    // Zum Testen:
