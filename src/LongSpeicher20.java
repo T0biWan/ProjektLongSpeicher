@@ -16,16 +16,26 @@ class LongSpeicher20 extends AbstractLongSpeicher {
    private int          lbi  = -1;  // letzter belegter Index
 
    public LongSpeicher20(int length) {
-      speicher = new long [length];
-      // Der Speicher wird mit Werten gef√ºllt
 
-      // for(int i=0; i < speicher.length; i++){
-      // speicher[i] = 10*(i+1);
-      // }
+      speicher = new long [length];
+
    }
 
    // ---------------------------------------------------------------------
    private int index(long n) {
+
+      // Liefert (wenn moeglich) einen Index i, an dem ein n im speicher
+      // steht (d.h. fuer den gilt: speicher[i] == n).
+      // Falls n nicht im speicher steht, wird der Index geliefert, an dem
+      // n eingefuegt werden sollte (falls man es einfuegen moechte).
+      // Achtung:
+      // Das Ergebnis von index ist moeglicherweise gleich speicher.length
+      // (und somit kein Index von speicher), und zwar wenn
+      // 1. der speicher voll ist (d.h. lbi == speicher.length-1 gilt) und
+      // 2. n groesser ist als alle long-Werte in diesem Speicher.
+      // Binaer gesucht wird in der Teilreihung speicher[von..bis]:
+      // lbi zeigt jetzt immer auf die grˆﬂte zahl, die im array ist
+
       int von = 0;
       int bis = lbi;
       while (von <= bis) {
@@ -64,49 +74,52 @@ class LongSpeicher20 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
    @Override
    public boolean fuegeEin(long n) {
-      if (lbi + 1 < speicher.length) {
-         if (lbi == -1) {
-            speicher[lbi + 1] = n;
-         } else {
-            for (int i = lbi; i > -1; i--) {
-               if (lt(n, speicher[i])) {
-                  speicher[i + 1] = speicher[i];
-                  speicher[i] = n;
-               } else if (ge(n, speicher[i])) {
-                  speicher[i + 1] = n;
-                  lbi++;
-                  return true;
-               }
-            }
-         }
-         lbi++;
-         return true;
+
+      // Liefert false, falls dieser Speicher bereits voll ist.
+      // Fuegt sonst n in diesen Speicher ein und liefert true.
+
+      if (lbi >= speicher.length - 1) return false;
+      int index = index(n);
+
+      for (int i = lbi; i >= index; i--) {
+         speicher[i + 1] = speicher[i];
       }
-      return false;
+
+      speicher[index] = n;
+      lbi++;
+
+      return true;
+
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean loesche(long n) {
-      if (istDrin(n)) {
-         // prinzipiell gute idee aber da index danach eh aufgerufen wird nicht
-         // so toll.
-         // erst den einfachen fall
-         int index = index(n);
-         for (int i = index; i <= lbi; i++) {
-            if (i + 1 <= lbi) speicher[i] = speicher[i + 1];
-         }
-         lbi--;
-         return true;
+
+      // Entfernt ein n aus diesem Speicher, und liefert true.
+      // Liefert false falls n in diesem Speicher nicht vorkommt.
+
+      int index = index(n);
+
+      if (index > lbi || index >= speicher.length || speicher[index] != n) return false;
+
+      for (int i = index; i < lbi; i++) {
+         if (i + 1 <= lbi) speicher[i] = speicher[i + 1];
       }
-      return false;
+
+      lbi--;
+      return true;
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean istDrin(long n) {
+
+      // Liefert true wenn n in diesem Speicher vorkommt, und sonst false.
+
       int index = index(n);
-      return index <= lbi && speicher[index] == n;
+      return (index <= lbi && speicher[index] == n);
+
    }
 
    // ---------------------------------------------------------------------
@@ -143,6 +156,8 @@ class LongSpeicher20 extends AbstractLongSpeicher {
       lsa.print("lsa");
       printf("lsa.fuegeEin(60): %b%n", lsa.fuegeEin(60));
       lsa.print("lsa");
+      printf("lsa.fuegeEin(15): %b%n", lsa.fuegeEin(15));
+      lsa.print("lsa");
 
       printf("-----------------------------------%n");
       printf("Positive Tests mit istDrin:%n%n");
@@ -169,9 +184,15 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 
       printf("lsa.index(60): %d%n", lsa.index(60));
       lsa.print("lsa");
+      printf("lsa.index(70): %d%n", lsa.index(70));
+      lsa.print("lsa");
+      printf("lsa.index(10): %d%n", lsa.index(10));
+      lsa.print("lsa");
+      printf("lsa.index(15): %d%n", lsa.index(15));
+      lsa.print("lsa");
 
       printf("-----------------------------------%n");
-      printf("Tests mit L√∂schen:%n%n");
+      printf("Tests mit Lˆschen:%n%n");
 
       printf("lsa.loesche(25): %b%n", lsa.loesche(25));
       lsa.print("lsa");
@@ -191,4 +212,4 @@ class LongSpeicher20 extends AbstractLongSpeicher {
    } // main
 
    // ---------------------------------------------------------------------
-} // class LongSpeicher10
+}
