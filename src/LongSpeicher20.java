@@ -82,18 +82,25 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 		// Fuegt sonst n in diesen Speicher ein und liefert true.
 
 		if (lbi >= speicher.length - 1) return false;
-		int index = index(n);
+		int index = index(n); // liefert index i, an dem n im Speicher steht
 
+		// lbi zeigt auf die größte Zahl die im Speicher ist
+		// Schleife durchläuft von hinten (lbi) mit Bedingung, dass
+		// dass lbi immer größer oder gleich dem Index sein muss 
+		// Bis der Index gefunden wurde, an dem der neue Eintrag zahlenmäßig passt.
+		// Dann wird dort eine Lücke geschaffen, und die neue Zahl wird eingetragen.
 		for (int i = lbi; i >= index; i--) {
 			speicher[i + 1] = speicher[i];
 		}
 		
-		speicher[index] = n;
+		speicher[index] = n; // der neue Index ist jetzt n, hier steht er jetzt im Speicher
 		lbi++;
 		
 		return true;
 
 	}
+	
+	
 
 	// ---------------------------------------------------------------------
 	@Override

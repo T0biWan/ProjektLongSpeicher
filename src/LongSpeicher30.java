@@ -134,30 +134,100 @@
         adk.next = new Knoten(adk.next, 25);
         adk.next = new Knoten(adk.next, 35);
         adk.next = new Knoten(adk.next, 15);
-        System.out.println(adk.next.data);
+//        System.out.println(adk.next.data);
         
         printf("%n");
         
         printf("lsc.nach_vor(15): %s%n", lsc.nach_vor(15)); // sollte die Zahl selbst ausgeben
-        printf("lsc.nach_vor(25): %s%n", lsc.nach_vor(25)); 
-        printf("lsc.nach_vor(35): %s%n", lsc.nach_vor(35)); 
-        printf("lsc.nach_vor(99): %s%n", lsc.nach_vor(99)); 
+        printf("lsc.nach_vor(25): %s%n", lsc.nach_vor(35)); 
+        printf("lsc.nach_vor(35): %s%n", lsc.nach_vor(25)); 
+        printf("lsc.nach_vor(99): %s%n", lsc.nach_vor(30));
+        printf("%n");
+        lsc.print("lsc");
         printf("-----------------------------------%n");
         
-        printf("Test Konstruktor und toString:%n%n");
+        printf("Test fuegeEin:%n%n");
         
-        printf("lsc.fuegeEin(15): %s%n", lsc.fuegeEin(15));
-        printf("lsc.fuegeEin(35): %s%n", lsc.fuegeEin(35));
-        printf("lsc.fuegeEin(25): %s%n", lsc.fuegeEin(25));
+        printf("lsc.fuegeEin(40): %s%n", lsc.fuegeEin(40));
+        printf("lsc.fuegeEin(50): %s%n", lsc.fuegeEin(50));
+        printf("lsc.fuegeEin(60): %s%n", lsc.fuegeEin(60));
+        printf("lsc.fuegeEin(60): %s%n", lsc.fuegeEin(60));
+        printf("lsc.fuegeEin(70): %s%n", lsc.fuegeEin(70));
+        printf("lsc.fuegeEin(80): %s%n", lsc.fuegeEin(80));
+        printf("lsc.fuegeEin(0): %s%n", lsc.fuegeEin(0));
+        printf("lsc.fuegeEin(1_000_000): %s%n", lsc.fuegeEin(1_000_000));
         
         lsc.print("lsc");
+        printf("-----------------------------------%n");
+        
+        printf("Test vorgaenger:%n%n");
    
-        printf("lsc.vorgaenger(35): %s%n", lsc.vorgaenger(35).data);
-        printf("lsc.vorgaenger(15): %s%n", lsc.vorgaenger(15).data);
-        printf("lsc.vorgaenger(0): %s%n", lsc.vorgaenger(0).data); // Der Vorgänger von 0 ist EDK
+        printf("lsc.vorgaenger(60): %s%n", lsc.vorgaenger(60).data);
+        printf("lsc.vorgaenger(50): %s%n", lsc.vorgaenger(50).data);
+        printf("lsc.vorgaenger(40): %s%n", lsc.vorgaenger(40).data);
+        printf("lsc.vorgaenger(0): %s%n", lsc.vorgaenger(0).data); 
+        printf("lsc.vorgaenger(1_000_000): %s%n", lsc.vorgaenger(1_000_000).data); 
+        lsc.print("lsc");
+        printf("lsc.loesche(0): %s%n", lsc.loesche(0));
+        lsc.print("lsc");
+        printf("lsc.vorgaenger(0): %s%n", lsc.vorgaenger(0).data);
+        printf("lsc.vorgaenger(1_000_000): %s%n", lsc.vorgaenger(1_000_000).data);
+        printf("lsc.vorgaenger(2_000_000): %s%n", lsc.vorgaenger(2_000_000).data);
         
+        printf("-----------------------------------%n");
+        printf("Test istDrin:%n%n");
         
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(60));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(70));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(80));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(50));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(40));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(0));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(80));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(99));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(5_000));
         
+        printf("-----------------------------------%n");
+        printf("Test mit loesche bei doppeltem Eintrag, wieder einfuegen, istDrin:%n%n");
+        
+        printf("lsc.loesche(60): %s%n", lsc.loesche(60));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(60));
+        printf("lsc.loesche(60): %s%n", lsc.loesche(60));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(60));
+        printf("lsc.fuegeEin(60): %s%n", lsc.fuegeEin(60));
+        printf("lsc.istDrin(60): %s%n", lsc.istDrin(60));
+
+        printf("-----------------------------------%n");
+        printf("Test mit loesche, wenn Eintrag nicht vorhanden:%n%n");
+        printf("lsc.loesche(880): %s%n", lsc.loesche(880));
+        
+        printf("-----------------------------------%n");
+        printf("Test mit loesche, wenn Eintrag vorhanden:%n%n");
+        printf("lsc.loesche(40): %s%n", lsc.loesche(40));
+        
+        printf("-----------------------------------%n");
+        printf("Test toString:%n%n");
+        lsc.print("lsc");
+        
+        printf("-----------------------------------%n");
+        printf("Test loeschen, dann toString:%n%n");
+        
+        printf("lsc.loesche(60): %s%n", lsc.loesche(60));
+        printf("lsc.loesche(1_000_000): %s%n", lsc.loesche(1_000_000));
+        printf("lsc.loesche(0): %s%n", lsc.loesche(0));
+        lsc.print("lsc");
+        printf("lsc.loesche(80): %s%n", lsc.loesche(80));
+        printf("lsc.loesche(70): %s%n", lsc.loesche(70));
+        printf("lsc.loesche(50): %s%n", lsc.loesche(50));
+        lsc.print("lsc");
+        printf("lsc.loesche(15): %s%n", lsc.loesche(15));
+        printf("lsc.loesche(35): %s%n", lsc.loesche(35));
+        printf("lsc.loesche(25): %s%n", lsc.loesche(25));
+        lsc.print("lsc");
+        
+        printf("-----------------------------------%n");
+        printf("Test loeschen, wenn kein Eintrag vorhanden:%n%n");
+        printf("lsc.loesche(25): %s%n", lsc.loesche(25));
    
         printf("-----------------------------------%n");
         printf("LongSpeicher30: Das war's erstmal!%n%n");
