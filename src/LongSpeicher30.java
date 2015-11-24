@@ -37,16 +37,14 @@
       // dessen data-Komponente gleich n ist).
       // Falls n in dieser Sammlung nicht vokommt, ist k der
       // Vorgaenger des EDK.
-
+      
       // Die gesuchte Zahl n in den End-Dummy-Knoten eintragen
       // (spaetestens dort wird sie dann gefunden)
-      
-      // Wir suchen den Vorgänger von n
-      // Speicher n im letzten Knoten, dieser hat keinen Nachfolger mehr
-      
       EDK.data = n;
+      
       Knoten k = ADK; // hier müssen wir anfangen zu suchen
-      while(k.next.data != n) k = k.next; // solange der Vorgänger nicht gefunden wurde, wird die while-Schleife durchlaufen
+      while(k.next.data != n) k = k.next; // solange der Vorgänger nicht 
+      //gefunden wurde, wird die while-Schleife durchlaufen
 
       return k; // Wenn while-Schleife Bedingung nicht erfüllt, wird ADK (=k) zurückgegeben
    }
@@ -60,9 +58,9 @@
       // "[20, 30, 10]"     //  3
 
       if (ADK.next == EDK) return "[]";
+      
       StringBuilder sb = new StringBuilder("[" + ADK.next.data);
       Knoten aktuellerKnoten = ADK.next.next;
-
       while (aktuellerKnoten != EDK) {
          sb.append(", " + aktuellerKnoten.data);
          aktuellerKnoten = aktuellerKnoten.next;
@@ -88,11 +86,10 @@
       // Liefert false falls n nicht in diesem Speicher vorkommt.
 
       Knoten knoten = vorgaenger(n);
-      if(knoten.next != EDK){
-         knoten.next = knoten.next.next;
-         return true;
-      }
-      return false;
+      if(knoten.next == EDK) return false;
+      
+      knoten.next = knoten.next.next;
+      return true;
       
    }
    // ---------------------------------------------------------------------
