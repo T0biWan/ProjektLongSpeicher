@@ -23,7 +23,6 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 
    // ---------------------------------------------------------------------
    private int index(long n) {
-
       // Liefert (wenn moeglich) einen Index i, an dem ein n im speicher
       // steht (d.h. fuer den gilt: speicher[i] == n).
       // Falls n nicht im speicher steht, wird der Index geliefert, an dem
@@ -35,7 +34,6 @@ class LongSpeicher20 extends AbstractLongSpeicher {
       // 2. n groesser ist als alle long-Werte in diesem Speicher.
       // Binaer gesucht wird in der Teilreihung speicher[von..bis]:
       // lbi zeigt jetzt immer auf die größte zahl, die im array ist
-
       int von = 0;
       int bis = lbi;
       while (von <= bis) {
@@ -53,13 +51,11 @@ class LongSpeicher20 extends AbstractLongSpeicher {
 
    @Override
    public String toString() {
-
       // Liefert eine String-Darstellung dieses Speichers. Beispiele:
       // // Anzahl der long-Werte im Speicher:
       // "[]" // 0
       // "[10]" // 1
       // "[20, 30, 10]" // 3
-
       if (lbi == -1) return "[]";
       StringBuilder sb = new StringBuilder();
       sb.append("[" + speicher[0]);
@@ -67,46 +63,35 @@ class LongSpeicher20 extends AbstractLongSpeicher {
          sb.append(", " + speicher[i]);
       }
       sb.append("]");
-
       return sb.toString();
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean fuegeEin(long n) {
-
       // Liefert false, falls dieser Speicher bereits voll ist.
       // Fuegt sonst n in diesen Speicher ein und liefert true.
-
       if (lbi >= speicher.length - 1) return false;
       int index = index(n);
 
       for (int i = lbi; i >= index; i--) {
          speicher[i + 1] = speicher[i];
       }
-
       speicher[index] = n;
       lbi++;
-
       return true;
-
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean loesche(long n) {
-
       // Entfernt ein n aus diesem Speicher, und liefert true.
       // Liefert false falls n in diesem Speicher nicht vorkommt.
-
       int index = index(n);
-
       if (index > lbi || index >= speicher.length || speicher[index] != n) return false;
-
       for (int i = index; i < lbi; i++) {
          if (i + 1 <= lbi) speicher[i] = speicher[i + 1];
       }
-
       lbi--;
       return true;
    }
@@ -114,12 +99,9 @@ class LongSpeicher20 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
    @Override
    public boolean istDrin(long n) {
-
       // Liefert true wenn n in diesem Speicher vorkommt, und sonst false.
-
       int index = index(n);
       return (index <= lbi && speicher[index] == n);
-
    }
 
    // ---------------------------------------------------------------------
