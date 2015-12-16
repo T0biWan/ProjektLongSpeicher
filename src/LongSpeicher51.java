@@ -1,24 +1,24 @@
 // Datei LongSpeicher51.java
 /* ------------------------------------------------------------------------
-Jedes Objekt der Klasse LongSpeicher51 ist ein Speicher, in dem man
-long-Werte sammeln (einfuegen, entfernen, suchen) kann.
+ Jedes Objekt der Klasse LongSpeicher51 ist ein Speicher, in dem man
+ long-Werte sammeln (einfuegen, entfernen, suchen) kann.
 
-Vereinfachte Version: Doppelgaenger sind NICHT erlaubt (d.h. werden
-nicht eingefuegt).
+ Vereinfachte Version: Doppelgaenger sind NICHT erlaubt (d.h. werden
+ nicht eingefuegt).
 
-TERMINOLOGIE: Als "n-Knoten" wird hier ein Knoten bezeichnet, der in seinem
-data-Attribut n enthaelt. Welcher (long-) Wert mit n gemeint ist, muss aus
-dem Kontext folgen. Dummy-Knoten zaehlen nicht als n-Knoten (auch wenn sie
-n enthalten).
----------------------------------------------------------------------------
-Implementierung: Als binaerer Baum
-Jedes Knoten-Objekt enthaelt ein long Attribut und zwei Knoten[]-Attribute.
-Die Knoten[]-Attribute zeigen auf Reihungen der Laenge 1.
-Uebergibt man einer Methode eine solche Reihung r, so kann die Methode den
-Wert der Variable r[0] veraendern (z.B. auf einen anderen Knoten zeigen
-lassen). Mit diesem "Trick" wird eine Parameteruebergabe per Referenz
-(die es in Java offiziell nicht gibt) nachgeahmt.
------------------------------------------------------------------------- */
+ TERMINOLOGIE: Als "n-Knoten" wird hier ein Knoten bezeichnet, der in seinem
+ data-Attribut n enthaelt. Welcher (long-) Wert mit n gemeint ist, muss aus
+ dem Kontext folgen. Dummy-Knoten zaehlen nicht als n-Knoten (auch wenn sie
+ n enthalten).
+ ---------------------------------------------------------------------------
+ Implementierung: Als binaerer Baum
+ Jedes Knoten-Objekt enthaelt ein long Attribut und zwei Knoten[]-Attribute.
+ Die Knoten[]-Attribute zeigen auf Reihungen der Laenge 1.
+ Uebergibt man einer Methode eine solche Reihung r, so kann die Methode den
+ Wert der Variable r[0] veraendern (z.B. auf einen anderen Knoten zeigen
+ lassen). Mit diesem "Trick" wird eine Parameteruebergabe per Referenz
+ (die es in Java offiziell nicht gibt) nachgeahmt.
+ ------------------------------------------------------------------------ */
 class LongSpeicher51 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
    // Zum Ein-/Ausschalten von Testbefehlen:
@@ -61,15 +61,23 @@ class LongSpeicher51 extends AbstractLongSpeicher {
 
       // Die gesuchte Zahl n in den End-Dummy-Knoten eintragen
       // (spaetestens dort wird sie dann gefunden)
+      // Dummy-Knoten gilt allerdings nicht als n-Knoten, selbst wenn er n
+      // enthaelt
       EDK.data = n;
       return vorgaengerR(n, AR);
    }
 
    private Knoten [] vorgaengerR(long n, Knoten [] hier) {
+      // F E R T I G
       // Eine rekursive Methode. Erledigt, was vorgaenger (ohne R)
       // versprochen hat (sollte nur von vorgaenger aufgerufen werden).
 
-      return AR; // MUSS ERSETZT WERDEN
+      // Rekursiver Fall
+      if (lt(n, hier[0].data)) return vorgaengerR(n, hier[0].lub);
+      if (gt(n, hier[0].data)) return vorgaengerR(n, hier[0].rub);
+
+      // Einfacher Fall
+      return hier;
    }
 
    // ---------------------------------------------------------------------
@@ -95,10 +103,16 @@ class LongSpeicher51 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
    @Override
    public boolean fuegeEin(long n) {
+      // F E R T I G
       // Liefert false, wenn n bereits in dieser Sammlung vorkommt.
       // Fuegt sonst n in diesen Speicher ein und liefert true.
-
-      return false; // MUSS ERSETZT WERDEN
+      Knoten vorgaenger = vorgaenger(n)[0];
+      if (vorgaenger != EDK) return false; // D.h. der Wert ist schon im
+                                           // Baum
+      vorgaenger = new Knoten(n, EDK, EDK); // Fuegt neuen Knoten, mit
+                                            // data = n, zwischen
+                                            // Vorgaenger und EDK ein
+      return true;
    }
 
    // ---------------------------------------------------------------------
