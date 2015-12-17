@@ -108,8 +108,8 @@ class LongSpeicher51 extends AbstractLongSpeicher {
       // Liefert false, wenn n bereits in dieser Sammlung vorkommt.
       // Fuegt sonst n in diesen Speicher ein und liefert true.
       Knoten vorgaenger = vorgaenger(n)[0];
-      if (vorgaenger != EDK) return false; // D.h. der Wert ist schon im
-                                           // Baum
+      if (istDrin(n)) return false; // D.h. der Wert ist schon im
+                                    // Baum
       vorgaenger = new Knoten(n, EDK, EDK); // Fuegt neuen Knoten, mit
                                             // data = n, zwischen
                                             // Vorgaenger und EDK ein
@@ -132,7 +132,7 @@ class LongSpeicher51 extends AbstractLongSpeicher {
    public boolean istDrin(long n) {
       // F E R T I G
       // Liefert true wenn n in diesem Speicher vorkommt, sonst false
-      return vorgaenger(n)[0].data == n;
+      return vorgaenger(n)[0] != EDK;
    }
 
    // ---------------------------------------------------------------------
