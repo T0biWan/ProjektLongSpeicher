@@ -54,6 +54,7 @@ class LongSpeicher51 extends AbstractLongSpeicher {
 
    // ---------------------------------------------------------------------
    private Knoten [] vorgaenger(long n) {
+      // F E R T I G
       // Liefert eine Knoten-Reihung r (der Laenge 1), die Teil eines
       // Knotens dieser Sammlung ist, und fuer die gilt:
       // r[0] ist der n-Knoten (falls es einen solchen gibt) und sonst
@@ -118,18 +119,20 @@ class LongSpeicher51 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
    @Override
    public boolean loesche(long n) {
+      // F E R T I G
       // Liefert false, wenn n in diesem Speicher nicht vorkommt.
       // Loescht sonst den Knoten, der n enthaelt und liefert true.
-
-      return false; // MUSS ERSETZT WERDEN
+      if (!istDrin(n)) return false;
+      vorgaenger(n)[0] = EDK;
+      return true;
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean istDrin(long n) {
-      // Liefert true wenn n in diesem Speicher vorkommt, sonst false.
-
-      return false; // MUSS ERSETZT WERDEN
+      // F E R T I G
+      // Liefert true wenn n in diesem Speicher vorkommt, sonst false
+      return vorgaenger(n)[0].data == n;
    }
 
    // ---------------------------------------------------------------------
