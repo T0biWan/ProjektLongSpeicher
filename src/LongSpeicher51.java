@@ -105,8 +105,10 @@ class LongSpeicher51 extends AbstractLongSpeicher {
    public boolean loesche(long n) {
       // Liefert false, wenn n in diesem Speicher nicht vorkommt.
       // Loescht sonst den Knoten, der n enthaelt und liefert true.
+      
+      // Wenn n gar nicht im Baum vorkommt, false zurückgeben
       Knoten vorgaenger = vorgaenger(n)[0];
-      if(vorgaenger == EDK) return false; // n ist nicht im Baum vorhanden
+      if(vorgaenger == EDK) return false;
       
       // Einfacher Fall
       if(vorgaenger.lub[0] == EDK && vorgaenger.rub[0] == EDK) {
