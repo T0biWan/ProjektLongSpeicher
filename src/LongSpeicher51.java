@@ -1,22 +1,22 @@
 // Datei LongSpeicher51.java
 /* ------------------------------------------------------------------------
-Jedes Objekt der Klasse LongSpeicher51 ist ein Speicher, in dem man
-long-Werte sammeln (einfuegen, entfernen, suchen) kann.
-Vereinfachte Version: Doppelgaenger sind NICHT erlaubt (d.h. werden
-nicht eingefuegt).
-TERMINOLOGIE: Als "n-Knoten" wird hier ein Knoten bezeichnet, der in seinem
-data-Attribut n enthaelt. Welcher (long-) Wert mit n gemeint ist, muss aus
-dem Kontext folgen. Dummy-Knoten zaehlen nicht als n-Knoten (auch wenn sie
-n enthalten).
----------------------------------------------------------------------------
-Implementierung: Als binaerer Baum
-Jedes Knoten-Objekt enthaelt ein long Attribut und zwei Knoten[]-Attribute.
-Die Knoten[]-Attribute zeigen auf Reihungen der Laenge 1.
-Uebergibt man einer Methode eine solche Reihung r, so kann die Methode den
-Wert der Variable r[0] veraendern (z.B. auf einen anderen Knoten zeigen
-lassen). Mit diesem "Trick" wird eine Parameteruebergabe per Referenz
-(die es in Java offiziell nicht gibt) nachgeahmt.
------------------------------------------------------------------------- */
+ Jedes Objekt der Klasse LongSpeicher51 ist ein Speicher, in dem man
+ long-Werte sammeln (einfuegen, entfernen, suchen) kann.
+ Vereinfachte Version: Doppelgaenger sind NICHT erlaubt (d.h. werden
+ nicht eingefuegt).
+ TERMINOLOGIE: Als "n-Knoten" wird hier ein Knoten bezeichnet, der in seinem
+ data-Attribut n enthaelt. Welcher (long-) Wert mit n gemeint ist, muss aus
+ dem Kontext folgen. Dummy-Knoten zaehlen nicht als n-Knoten (auch wenn sie
+ n enthalten).
+ ---------------------------------------------------------------------------
+ Implementierung: Als binaerer Baum
+ Jedes Knoten-Objekt enthaelt ein long Attribut und zwei Knoten[]-Attribute.
+ Die Knoten[]-Attribute zeigen auf Reihungen der Laenge 1.
+ Uebergibt man einer Methode eine solche Reihung r, so kann die Methode den
+ Wert der Variable r[0] veraendern (z.B. auf einen anderen Knoten zeigen
+ lassen). Mit diesem "Trick" wird eine Parameteruebergabe per Referenz
+ (die es in Java offiziell nicht gibt) nachgeahmt.
+ ------------------------------------------------------------------------ */
 class LongSpeicher51 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
    // Zum Ein-/Ausschalten von Testbefehlen:
@@ -64,10 +64,10 @@ class LongSpeicher51 extends AbstractLongSpeicher {
    private Knoten[] vorgaengerR(long n, Knoten[] hier) {
       // Eine rekursive Methode. Erledigt, was vorgaenger (ohne R)
       // versprochen hat (sollte nur von vorgaenger aufgerufen werden).
-      if(lt(hier[0].data, n)) return vorgaengerR(n, hier[0].lub);
-      if(gt(hier[0].data, n)) return vorgaengerR(n, hier[0].rub);
+      if (lt(hier[0].data, n)) return vorgaengerR(n, hier[0].lub);
+      if (gt(hier[0].data, n)) return vorgaengerR(n, hier[0].rub);
       return hier;
- 
+
    }
 
    // ---------------------------------------------------------------------
@@ -80,12 +80,23 @@ class LongSpeicher51 extends AbstractLongSpeicher {
       //   --               "[]"
       //   10               "[10]"
       //   10, 20, 30       "[10, 20, 30]"
-      return "Noch nicht implementiert!"; // MUSS ERSETZT WERDEN
+      StringBuilder builder = new StringBuilder();
+      builder.append('[');
+      toStringR(AR, builder);
+      builder.append(']');
+      return builder.toString();
    }
 
    private void toStringR(Knoten[] hier, StringBuilder sb) {
-      // Rekurisve Hilfsmethode fuer toString.
-      return; // MUSS ERSETZT WERDEN
+      
+      Knoten knoten = hier[0];
+      if (knoten == EDK) return;
+
+      sb.append(knoten.data);
+      if (knoten.lub[0] != EDK) sb.append(", ");
+      toStringR(knoten.lub, sb);
+      if (knoten.rub[0] != EDK) sb.append(", ");
+      toStringR(knoten.rub, sb);
    }
 
    // ---------------------------------------------------------------------
@@ -93,9 +104,9 @@ class LongSpeicher51 extends AbstractLongSpeicher {
    public boolean fuegeEin(long n) {
       // Liefert false, wenn n bereits in dieser Sammlung vorkommt.
       // Fuegt sonst n in diesen Speicher ein und liefert true.
-      
+
       Knoten vorgaenger = vorgaenger(n)[0];
-      if(vorgaenger != EDK) return false;
+      if (vorgaenger != EDK) return false;
       vorgaenger = new Knoten(n, EDK, EDK);
       return true;
    }
@@ -105,37 +116,37 @@ class LongSpeicher51 extends AbstractLongSpeicher {
    public boolean loesche(long n) {
       // Liefert false, wenn n in diesem Speicher nicht vorkommt.
       // Loescht sonst den Knoten, der n enthaelt und liefert true.
-      
+
       // Wenn n gar nicht im Baum vorkommt, false zurückgeben
       Knoten vorgaenger = vorgaenger(n)[0];
-      if(vorgaenger == EDK) return false;
-      
+      if (vorgaenger == EDK) return false;
+
       // Einfacher Fall
-      if(vorgaenger.lub[0] == EDK && vorgaenger.rub[0] == EDK) {
+      if (vorgaenger.lub[0] == EDK && vorgaenger.rub[0] == EDK) {
          vorgaenger = EDK;
          return true;
       }
-      
-      if(vorgaenger.lub[0] == EDK) {
+
+      if (vorgaenger.lub[0] == EDK) {
          vorgaenger = vorgaenger.rub[0];
          return true;
       }
-      
-      if(vorgaenger.rub[0] == EDK) {
+
+      if (vorgaenger.rub[0] == EDK) {
          vorgaenger = vorgaenger.lub[0];
          return true;
       }
-      
+
       // Komplizierter Fall
       Knoten aktuellerKnoten = vorgaenger;
       vorgaenger = vorgaenger.lub[0];
-      while(vorgaenger.rub[0] != EDK) {
+      while (vorgaenger.rub[0] != EDK) {
          vorgaenger = vorgaenger.rub[0];
       }
-      
+
       aktuellerKnoten = vorgaenger;
       vorgaenger = EDK;
-      return true; 
+      return true;
    }
 
    // ---------------------------------------------------------------------
