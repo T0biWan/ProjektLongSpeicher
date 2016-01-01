@@ -39,7 +39,7 @@ public class LongSpeicher_EndTest {
    // Wenn die zu testende Klasse zum namenlosen Paket gehoert, ist
    // ihr voller Name gleich ihrem einfachen Namen, ohne Pakete davor.
 
-   final static String KLASSEN_NAME = "LongSpeicher51Neu";
+   final static String KLASSEN_NAME = "LongSpeicher51";
    // ---------------------------------------------------------------------
    static final boolean TST1 = false;
    // ---------------------------------------------------------------------
