@@ -91,14 +91,15 @@ class LongSpeicher51 extends AbstractLongSpeicher {
       // -- "[]"
       // 10 "[10]"
       // 10, 20, 30 "[10, 20, 30]"
-
-      return "Noch nicht implementiert!"; // MUSS ERSETZT WERDEN
+      StringBuilder sb = new StringBuilder("[");
+      return toStringR(AR, sb).toString();
    }
 
-   private void toStringR(Knoten [] hier, StringBuilder sb) {
+   private StringBuilder toStringR(Knoten [] hier, StringBuilder sb) {
       // Rekurisve Hilfsmethode fuer toString.
-
-      return; // MUSS ERSETZT WERDEN
+      if (hier[0] == EDK) return sb.append("]");
+      sb.append(hier[0].data);
+      return sb;
    }
 
    // ---------------------------------------------------------------------
