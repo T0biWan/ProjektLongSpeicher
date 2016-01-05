@@ -151,18 +151,18 @@ class LongSpeicher51 extends AbstractLongSpeicher {
       // Komplizierter Fall: Knoten hat einen linken und einen rechten Unterbaum
       // Linker Teilbaum wird umgehängt; rechter Teilbaum neu hinzugefügt.
       
-      Knoten[] vorgaengerReferenz = knoten.lub;
+      Knoten[] vorgaengerReferenz = knoten.lub; // zum linken Unterbaum gehen
       while (vorgaengerReferenz[0].rub[0] != EDK) { // Prüft, ob noch ein rechter Unterbaum dran hängt
-         vorgaengerReferenz = vorgaengerReferenz[0].rub; // überschreiben
+         vorgaengerReferenz = vorgaengerReferenz[0].rub; // überschreiben bis zum Maximum
       }
       
-      knotenReferenz[0].data = vorgaengerReferenz[0].data;
-      
-      if(vorgaengerReferenz[0].lub[0] != EDK) {
-         vorgaengerReferenz[0] = vorgaengerReferenz[0].lub[0];
-      } else {
-         vorgaengerReferenz[0] = EDK;
-      }
+      knotenReferenz[0].data = vorgaengerReferenz[0].data; // Daten aus MAX in den L Knoten kopieren
+      vorgaengerReferenz[0] = vorgaengerReferenz[0].lub[0];  
+//      if(vorgaengerReferenz[0].lub[0] != EDK) {
+//         vorgaengerReferenz[0] = vorgaengerReferenz[0].lub[0];
+//      } else {
+//         vorgaengerReferenz[0] = EDK; // Löschen
+//      }
       return true;  
    }
 
@@ -277,15 +277,9 @@ class LongSpeicher51 extends AbstractLongSpeicher {
       fsa.print();
       
       // Vorgaenger testen bei nicht vorhandenen Einträgen
-      // Richtig? Liefert die Zahl, obwohl sie nicht eingetragen ist.
       printf("fsa.vorgaenger(100): %s%n", fsa.vorgaenger(100)[0].data);
       fsa.print();
-      
-      
-      
-      
-      
-      
+ 
       printf("H ------------------------------ H%n");
       printf("LongSpeicher51: Das war's erstmal!%n%n");
    } // main
