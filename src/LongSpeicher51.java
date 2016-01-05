@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 // Datei LongSpeicher51.java
 /* ------------------------------------------------------------------------
 Jedes Objekt der Klasse LongSpeicher51 ist ein Speicher, in dem man
@@ -243,7 +245,47 @@ class LongSpeicher51 extends AbstractLongSpeicher {
       fsa.print();
       fsa.printB("fsa");
       printf("B ------------------------------ B%n");
-      // Hier sollen Sie weitere aehnliche Testbefehle einfuegen
+      
+      // Doppelgänger sind nicht erlaubt. Dieser Befehl muss false liefern.
+      printf("fsa.fuegeEin(95): %-5b%n", fsa.fuegeEin(95));
+      fsa.print();
+      
+      // Die 95 wird gelöscht und dann wieder eingefügt, muss true liefern.
+      printf("fsa.loesche(95): %-5b%n", fsa.loesche(95));
+      fsa.print();
+      printf("fsa.fuegeEin(95): %-5b%n", fsa.fuegeEin(95));
+      fsa.print();
+      
+      // Die 95 wurde hinzugefügt, der Befehl muss true liefern.
+      printf("fsa.istDrin(95): %-5b%n", fsa.istDrin(95));
+      fsa.print();
+      
+      // Test istDrin mit einer Zahl, die nicht im Speicher ist.
+      printf("fsa.istDrin(97): %-5b%n", fsa.istDrin(97));
+      fsa.print();
+      
+      // Wurzelknoten löschen
+      printf("fsa.loesche(65): %-5b%n", fsa.loesche(65));
+      fsa.print();
+      
+      // Vorgaenger testen am Wurzelknoten
+      printf("fsa.vorgaenger(55): %s%n", fsa.vorgaenger(55)[0].data);
+      fsa.print();
+      
+      // Vorgaenger testen bei vorhandenen Einträgen
+      printf("fsa.vorgaenger(35): %s%n", fsa.vorgaenger(35)[0].data);
+      fsa.print();
+      
+      // Vorgaenger testen bei nicht vorhandenen Einträgen
+      // Richtig? Liefert die Zahl, obwohl sie nicht eingetragen ist.
+      printf("fsa.vorgaenger(100): %s%n", fsa.vorgaenger(100)[0].data);
+      fsa.print();
+      
+      
+      
+      
+      
+      
       printf("H ------------------------------ H%n");
       printf("LongSpeicher51: Das war's erstmal!%n%n");
    } // main

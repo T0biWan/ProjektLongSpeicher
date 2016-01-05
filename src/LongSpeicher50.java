@@ -1,25 +1,25 @@
 // Datei LongSpeicher50.java
 /* ------------------------------------------------------------------------
-Jedes Objekt der Klasse LongSpeicher50 ist ein Speicher, in dem man
-long-Werte sammeln (einfuegen, entfernen, suchen) kann.
-Doppelgaenger sind erlaubt.
-TERMINOLOGIE: Als "n-Knoten" wird hier ein Knoten bezeichnet, der in seinem
-data-Attribut n enthaelt. Welcher (long-) Wert mit n gemeint ist, muss aus
-dem Kontext folgen. Dummy-Knoten zaehlen nicht als n-Knoten (auch wenn sie
-n enthalten).
----------------------------------------------------------------------------
-Implementierung: Als binaerer Baum
-Jedes Knoten-Objekt enthaelt ein long Attribut und zwei Knoten[]-Attribute.
-Die Knoten[]-Attribute zeigen auf Reihungen der Laenge 1.
-Uebergibt man einer Methode eine solche Reihung r, so kann diese den
-Wert der Variable r[0] veraendern (z.B. auf einen anderen Knoten zeigen
-lassen). Mit diesem "Trick" wird eine Parameteruebergabe per Referenz
-(die es in Java offiziell nicht gibt) nachgeahmt.
------------------------------------------------------------------------- */
+ Jedes Objekt der Klasse LongSpeicher50 ist ein Speicher, in dem man
+ long-Werte sammeln (einfuegen, entfernen, suchen) kann.
+ Doppelgaenger sind erlaubt.
+ TERMINOLOGIE: Als "n-Knoten" wird hier ein Knoten bezeichnet, der in seinem
+ data-Attribut n enthaelt. Welcher (long-) Wert mit n gemeint ist, muss aus
+ dem Kontext folgen. Dummy-Knoten zaehlen nicht als n-Knoten (auch wenn sie
+ n enthalten).
+ ---------------------------------------------------------------------------
+ Implementierung: Als binaerer Baum
+ Jedes Knoten-Objekt enthaelt ein long Attribut und zwei Knoten[]-Attribute.
+ Die Knoten[]-Attribute zeigen auf Reihungen der Laenge 1.
+ Uebergibt man einer Methode eine solche Reihung r, so kann diese den
+ Wert der Variable r[0] veraendern (z.B. auf einen anderen Knoten zeigen
+ lassen). Mit diesem "Trick" wird eine Parameteruebergabe per Referenz
+ (die es in Java offiziell nicht gibt) nachgeahmt.
+ ------------------------------------------------------------------------ */
 class LongSpeicher50 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
    // Zum Ein-/Ausschalten von Testbefehlen:
-   static final boolean NAM  = true;
+   static final boolean NAM  = false;
    static final boolean TST1 = false;
    static final boolean TST2 = false;
 
@@ -72,7 +72,9 @@ class LongSpeicher50 extends AbstractLongSpeicher {
    private Knoten[] vorgaengerR(long n, Knoten[] hier) {
       // Eine rekursive Methode. Erledigt, was vorgaenger (ohne R)
       // versprochen hat (sollte nur von vorgaenger aufgerufen werden).
-      return AR; // MUSS ERSETZT WERDEN
+      if(lt(n, hier[0].data)) return vorgaengerR(n, hier[0].lub);
+      if(gt(n, hier[0].data)) return vorgaengerR(n, hier[0].rub);
+      return hier;
    }
 
    // ---------------------------------------------------------------------
@@ -88,19 +90,39 @@ class LongSpeicher50 extends AbstractLongSpeicher {
       //
       // Falls NAM den Wert true hat, erscheint vor jeder long-Zahl
       // der name des Knoten, z.B. [B10, D20, C30] statt [10, 20, 30].
-      return "Noch nicht implementiert!"; // MUSS ERSETZT WERDEN
+
+      if (AR[0] == EDK) return "[]"; // Wenn dieser Speicher leer ist
+      StringBuilder sb = new StringBuilder("[");
+      toStringR(AR, sb);      
+      // Die letzten Trennzeichen ", " werden durch "]" ersetzt:
+      sb.replace(sb.length()-2, sb.length(), "]");
+      return sb.toString();
    }
 
    private void toStringR(Knoten[] hier, StringBuilder sb) {
       // Rekurisve Hilfsmethode fuer toString.
-      return; // MUSS ERSETZT WERDEN
+      if (hier[0] == EDK) return; // hier[0] leerer Unterbaum?
+      toStringR(hier[0].lub, sb); // Linken Unterbaum bearbeiten
+      if (NAM) sb.append(hier[0].name);
+      sb.append(hier[0].data);
+      sb.append(", ");
+      toStringR(hier[0].rub, sb); // Rechten Unterbaum bearbeiten
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean fuegeEin(long n) {
       // Fuegt n in diesen Speicher ein und liefert true.
-      return false; // MUSS ERSETZT WERDEN
+      
+      Knoten[] vorgaengerReferenz = vorgaenger(n);
+      Knoten doppelgaenger;
+      
+      if(vorgaengerReferenz[0] == EDK) vorgaengerReferenz[0] = new Knoten(n, EDK, EDK);
+      else {
+         doppelgaenger = new Knoten(n, vorgaengerReferenz[0].lub[0], EDK);
+         vorgaengerReferenz[0].lub[0] = doppelgaenger;
+      }
+      return true;
    }
 
    // ---------------------------------------------------------------------
@@ -110,14 +132,43 @@ class LongSpeicher50 extends AbstractLongSpeicher {
       // Loescht sonst einen n-Knoten und liefert true.
       // Falls diese Sammlung mehrere n-Knoten enthaelt, wird der geloescht,
       // der direkt links unter dem ersten ("obersten") n-Knoten haengt.
-      return false; // MUSS ERSETZT WERDEN
+      Knoten[] vorgaengerReferenz = vorgaenger(n);
+      if(vorgaengerReferenz[0] == EDK) return false; // n ist nicht im Speicher vorhanden
+      
+      // Falls es im Baum mehrere n-Knoten gibt
+      if(vorgaengerReferenz[0].lub[0].data == n && vorgaengerReferenz[0].lub[0] != EDK) {
+         vorgaengerReferenz[0].lub[0] = vorgaengerReferenz[0].lub[0].lub[0];
+         return true;
+      }
+      
+      // Kein linker Unterbaum?
+      if(vorgaengerReferenz[0].lub[0] == EDK) {
+         vorgaengerReferenz[0] = vorgaengerReferenz[0].rub[0];
+         return true;
+      }
+      
+      // Kein rechter Unterbaum?
+      if(vorgaengerReferenz[0].rub[0] == EDK) {
+         vorgaengerReferenz[0] = vorgaengerReferenz[0].lub[0];
+         return true;
+      }
+      
+      Knoten[] rechtesterKnoten = vorgaengerReferenz[0].lub;
+      while(rechtesterKnoten[0].rub[0] != EDK) {
+         rechtesterKnoten = rechtesterKnoten[0].rub;
+      }
+      
+      vorgaengerReferenz[0].data = rechtesterKnoten[0].data;
+      rechtesterKnoten[0] = rechtesterKnoten[0].lub[0];
+      return true;
+
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean istDrin(long n) {
       // Liefert true wenn n in diesem Speicher vorkommt, sonst false.
-      return false; // MUSS ERSETZT WERDEN
+      return vorgaenger(n)[0] != EDK;
    }
 
    // ---------------------------------------------------------------------
