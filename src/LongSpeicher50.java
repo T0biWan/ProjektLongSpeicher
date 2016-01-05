@@ -136,12 +136,13 @@ class LongSpeicher50 extends AbstractLongSpeicher {
       if(vorgaengerReferenz[0] == EDK) return false; // n ist nicht im Speicher vorhanden
       
       // Falls es im Baum mehrere n-Knoten gibt
+      // Doppelgänger haben keine rechten Unterbäume -> nicht beachten
       if(vorgaengerReferenz[0].lub[0].data == n && vorgaengerReferenz[0].lub[0] != EDK) {
          vorgaengerReferenz[0].lub[0] = vorgaengerReferenz[0].lub[0].lub[0];
          return true;
       }
       
-      // Kein linker Unterbaum?
+      // Kein linker Unterbaum? Kein Doppelgänger!
       if(vorgaengerReferenz[0].lub[0] == EDK) {
          vorgaengerReferenz[0] = vorgaengerReferenz[0].rub[0];
          return true;
@@ -153,6 +154,7 @@ class LongSpeicher50 extends AbstractLongSpeicher {
          return true;
       }
       
+      // Komplizierter Fall: es gibt linken und rechten Unterbaum und keine Doppelgänger
       Knoten[] rechtesterKnoten = vorgaengerReferenz[0].lub;
       while(rechtesterKnoten[0].rub[0] != EDK) {
          rechtesterKnoten = rechtesterKnoten[0].rub;
