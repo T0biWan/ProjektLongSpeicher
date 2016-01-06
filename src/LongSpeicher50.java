@@ -32,15 +32,15 @@ class LongSpeicher50 extends AbstractLongSpeicher {
       // Die Reihungen lub und rub werden immer die Laenge 1 haben.
       // Sie ermöglichen es, die Referenzen von Knoten per Referenz
       // an Methoden zu uebergeben.
-      long     data;
-      Knoten[] lub; // lub[0] ist der linke  Unterbaum
-      Knoten[] rub; // rub[0] ist der rechte Unterbaum
-      char     name; // Nur zum Testen: Um Doppelgaenger zu unterscheiden
+      long      data;
+      Knoten [] lub; // lub[0] ist der linke Unterbaum
+      Knoten [] rub; // rub[0] ist der rechte Unterbaum
+      char      name; // Nur zum Testen: Um Doppelgaenger zu unterscheiden
 
       Knoten(long data, Knoten lub, Knoten rub) { // Konstruktor
          this.data = data;
-         this.lub = new Knoten[] { lub };
-         this.rub = new Knoten[] { rub };
+         this.lub = new Knoten [] { lub };
+         this.rub = new Knoten [] { rub };
          if (NAM) this.name = naechsterName++;
       }
 
@@ -53,11 +53,11 @@ class LongSpeicher50 extends AbstractLongSpeicher {
      // Knoten-Reihung AR (der Laenge 1). AR[0] ist anfangs gleich dem EDK
      // und ist spaeter der erste "richtige Knoten" (die Wurzel) des Baums
 
-   private final Knoten   EDK = new Knoten(0, null, null);
-   private final Knoten[] AR  = new Knoten[] { EDK };
+   private final Knoten    EDK = new Knoten(0, null, null);
+   private final Knoten [] AR  = new Knoten [] { EDK };
 
    // ---------------------------------------------------------------------
-   private Knoten[] vorgaenger(long n) {
+   private Knoten [] vorgaenger(long n) {
       // Liefert eine Knoten-Reihung r (der Laenge 1), die Teil eines
       // Knotens dieser Sammlung ist, und fuer die gilt:
       // r[0] ist ein n-Knoten (falls es einen solchen gibt) und sonst
@@ -69,11 +69,11 @@ class LongSpeicher50 extends AbstractLongSpeicher {
       return vorgaengerR(n, AR);
    }
 
-   private Knoten[] vorgaengerR(long n, Knoten[] hier) {
+   private Knoten [] vorgaengerR(long n, Knoten [] hier) {
       // Eine rekursive Methode. Erledigt, was vorgaenger (ohne R)
       // versprochen hat (sollte nur von vorgaenger aufgerufen werden).
-      if(lt(n, hier[0].data)) return vorgaengerR(n, hier[0].lub);
-      if(gt(n, hier[0].data)) return vorgaengerR(n, hier[0].rub);
+      if (lt(n, hier[0].data)) return vorgaengerR(n, hier[0].lub);
+      if (gt(n, hier[0].data)) return vorgaengerR(n, hier[0].rub);
       return hier;
    }
 
@@ -82,24 +82,24 @@ class LongSpeicher50 extends AbstractLongSpeicher {
    public String toString() {
       // Liefert eine String-Darstellung dieses Speichers. Beispiele:
       //
-      // Zahl(en) im      Ergebnis von:
-      // Speicher         toString
-      //   --               "[]"
-      //   10               "[10]"
-      //   10, 20, 30       "[10, 20, 30]"
+      // Zahl(en) im Ergebnis von:
+      // Speicher toString
+      // -- "[]"
+      // 10 "[10]"
+      // 10, 20, 30 "[10, 20, 30]"
       //
       // Falls NAM den Wert true hat, erscheint vor jeder long-Zahl
       // der name des Knoten, z.B. [B10, D20, C30] statt [10, 20, 30].
 
       if (AR[0] == EDK) return "[]"; // Wenn dieser Speicher leer ist
       StringBuilder sb = new StringBuilder("[");
-      toStringR(AR, sb);      
+      toStringR(AR, sb);
       // Die letzten Trennzeichen ", " werden durch "]" ersetzt:
-      sb.replace(sb.length()-2, sb.length(), "]");
+      sb.replace(sb.length() - 2, sb.length(), "]");
       return sb.toString();
    }
 
-   private void toStringR(Knoten[] hier, StringBuilder sb) {
+   private void toStringR(Knoten [] hier, StringBuilder sb) {
       // Rekurisve Hilfsmethode fuer toString.
       if (hier[0] == EDK) return; // hier[0] leerer Unterbaum?
       toStringR(hier[0].lub, sb); // Linken Unterbaum bearbeiten
@@ -113,11 +113,12 @@ class LongSpeicher50 extends AbstractLongSpeicher {
    @Override
    public boolean fuegeEin(long n) {
       // Fuegt n in diesen Speicher ein und liefert true.
-      
-      Knoten[] vorgaengerReferenz = vorgaenger(n);
+
+      Knoten [] vorgaengerReferenz = vorgaenger(n);
       Knoten doppelgaenger;
-      
-      if(vorgaengerReferenz[0] == EDK) vorgaengerReferenz[0] = new Knoten(n, EDK, EDK);
+
+      if (vorgaengerReferenz[0] == EDK)
+         vorgaengerReferenz[0] = new Knoten(n, EDK, EDK);
       else {
          doppelgaenger = new Knoten(n, vorgaengerReferenz[0].lub[0], EDK);
          vorgaengerReferenz[0].lub[0] = doppelgaenger;
@@ -132,34 +133,36 @@ class LongSpeicher50 extends AbstractLongSpeicher {
       // Loescht sonst einen n-Knoten und liefert true.
       // Falls diese Sammlung mehrere n-Knoten enthaelt, wird der geloescht,
       // der direkt links unter dem ersten ("obersten") n-Knoten haengt.
-      Knoten[] vorgaengerReferenz = vorgaenger(n);
-      if(vorgaengerReferenz[0] == EDK) return false; // n ist nicht im Speicher vorhanden
-      
+      Knoten [] vorgaengerReferenz = vorgaenger(n);
+      if (vorgaengerReferenz[0] == EDK) return false; // n ist nicht im Speicher
+                                                      // vorhanden
+
       // Falls es im Baum mehrere n-Knoten gibt
       // Doppelgänger haben keine rechten Unterbäume -> nicht beachten
-      if(vorgaengerReferenz[0].lub[0].data == n && vorgaengerReferenz[0].lub[0] != EDK) {
+      if (vorgaengerReferenz[0].lub[0].data == n && vorgaengerReferenz[0].lub[0] != EDK) {
          vorgaengerReferenz[0].lub[0] = vorgaengerReferenz[0].lub[0].lub[0];
          return true;
       }
-      
+
       // Kein linker Unterbaum? Kein Doppelgänger!
-      if(vorgaengerReferenz[0].lub[0] == EDK) {
+      if (vorgaengerReferenz[0].lub[0] == EDK) {
          vorgaengerReferenz[0] = vorgaengerReferenz[0].rub[0];
          return true;
       }
-      
+
       // Kein rechter Unterbaum?
-      if(vorgaengerReferenz[0].rub[0] == EDK) {
+      if (vorgaengerReferenz[0].rub[0] == EDK) {
          vorgaengerReferenz[0] = vorgaengerReferenz[0].lub[0];
          return true;
       }
-      
-      // Komplizierter Fall: es gibt linken und rechten Unterbaum und keine Doppelgänger
-      Knoten[] rechtesterKnoten = vorgaengerReferenz[0].lub;
-      while(rechtesterKnoten[0].rub[0] != EDK) {
+
+      // Komplizierter Fall: es gibt linken und rechten Unterbaum und keine
+      // Doppelgänger
+      Knoten [] rechtesterKnoten = vorgaengerReferenz[0].lub;
+      while (rechtesterKnoten[0].rub[0] != EDK) {
          rechtesterKnoten = rechtesterKnoten[0].rub;
       }
-      
+
       vorgaengerReferenz[0].data = rechtesterKnoten[0].data;
       rechtesterKnoten[0] = rechtesterKnoten[0].lub[0];
       return true;
@@ -178,15 +181,15 @@ class LongSpeicher50 extends AbstractLongSpeicher {
    private void print() {
       // Gibt den Baum, auf den AR zeigt, in lesbarer Form aus:
       // Pro Zeile ein Knoten, Unterbaeume sind eingerueckt, z.B. so
-      // (links wenn NAM gleich true,  rechts wenn NAM gleich false ist):
+      // (links wenn NAM gleich true, rechts wenn NAM gleich false ist):
       //
-      //          H90                            90
-      //       D80                            80
-      //          G80                            80
-      //    B60                            60
-      //       E50                            50
-      //          C40                            40
-      //             F30                            30
+      // H90 90
+      // D80 80
+      // G80 80
+      // B60 60
+      // E50 50
+      // C40 40
+      // F30 30
       //
       // Diese Darstellungen sollte man sich um 90 Grad nach rechts gedreht
       // vorstellen (so dass die Wurzel B60 bzw. 60 ganz oben ist).
@@ -202,7 +205,7 @@ class LongSpeicher50 extends AbstractLongSpeicher {
       printf("+--------------------------%n"); // Ende-Zeile
    }
 
-   private void printR(Knoten[] hier, String einrueck) {
+   private void printR(Knoten [] hier, String einrueck) {
       // Rekursive Hilfsmethode fuer print
       // Eine Einrueck-Stufe:
       final String EINRUECK = "   ";
@@ -228,7 +231,7 @@ class LongSpeicher50 extends AbstractLongSpeicher {
    }
 
    // ---------------------------------------------------------------------
-   static public void main(String[] sonja) {
+   static public void main(String [] sonja) {
       printf("LongSpeicher50: Jetzt geht es los!%n");
       printf("A ------------------------------- A%n");
       printf("Positive Tests mit fuegeEin:%n%n");
