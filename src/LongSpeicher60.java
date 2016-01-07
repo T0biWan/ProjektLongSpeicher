@@ -1,18 +1,19 @@
 // Datei LongSpeicher60.java
 /* ------------------------------------------------------------------------
-Jedes Objekt der Klasse LongSpeicher40 ist ein Speicher, in dem man
-long-Werte sammeln (einfuegen, entfernen, suchen) kann.
-Doppelgaenger sind erlaubt.
----------------------------------------------------------------------------
-Implementierung: Als Hash-Tabelle
------------------------------------------------------------------------- */
+ Jedes Objekt der Klasse LongSpeicher40 ist ein Speicher, in dem man
+ long-Werte sammeln (einfuegen, entfernen, suchen) kann.
+ Doppelgaenger sind erlaubt.
+ ---------------------------------------------------------------------------
+ Implementierung: Als Hash-Tabelle
+ ------------------------------------------------------------------------ */
 
 class LongSpeicher60 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
    // Zum Ein-/Ausschalten von Testbefehlen:
    static final boolean    TST1 = false;
    // ---------------------------------------------------------------------
-   final LongSpeicher30 [] TAB;         // Die Hash-Tabelle
+   final LongSpeicher30 [] TAB;         // Die Hash-Tabelle, bestehend aus
+                                         // einer Reihung von LS30-Listen
 
    public LongSpeicher60(int len) {
       // Initialisiert TAB mit einer Reihung der Laenge len.
@@ -30,6 +31,7 @@ class LongSpeicher60 extends AbstractLongSpeicher {
      // ---------------------------------------------------------------------
 
    private int hashFunktion(long n) {
+      // F E R T I G
       // Liefert einen Index fuer die Reihung TAB. Dieser Index haengt
       // nur von n ab.
       return (int) Math.abs(n % TAB.length);
@@ -37,9 +39,9 @@ class LongSpeicher60 extends AbstractLongSpeicher {
 
    // ---------------------------------------------------------------------
    private LongSpeicher30 zustaendigeListe(long n) {
+      // F E R T I G
       // Liefert die Liste TAB[i], die für den Schluessel n zustaendig ist:
-
-      return TAB[0]; // MUSS ERSETZT WERDEN;
+      return TAB[hashFunktion(n)];
    }
 
    // ---------------------------------------------------------------------
@@ -71,6 +73,7 @@ class LongSpeicher60 extends AbstractLongSpeicher {
    }
 
    private String remove2(String s) {
+      // F E R T I G
       // Erwartet, dass s.length groesser oder gleich 2 ist. Liefert
       // eine Kopie von s ohne den ersten und letzten char-Wert.
       //
@@ -78,33 +81,37 @@ class LongSpeicher60 extends AbstractLongSpeicher {
       // convert("[]") ist gleich ""
       // convert("[10]") ist gleich "10"
       // convert("[20, 30, 10]") ist gleich "20, 30, 10"
-
-      return "remove2: Noch nicht implementiert"; // MUSS ERSETZT WERDEN
+      String s2 = s;
+      if (s.length() > 1) s2 = s.substring(1, s.length() - 1);
+      return s2;
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean fuegeEin(long n) {
+      // F E R T I G
       // Fuegt n in diesen Speicher ein und liefert true.
-
-      return false; // MUSS ERSETZT WERDEN
+      zustaendigeListe(n).fuegeEin(n);
+      return true;
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean loesche(long n) {
+      // F E R T I G
       // Entfernt n aus diesem Speicher, und liefert true.
       // Liefert false falls n nicht in diesem Speicher vorkommt.
-
-      return false; // MUSS ERSETZT WERDEN
+      if (!istDrin(n)) return false;
+      zustaendigeListe(n).loesche(n);
+      return true;
    }
 
    // ---------------------------------------------------------------------
    @Override
    public boolean istDrin(long n) {
+      // F E R T I G
       // Liefert true wenn n in diesem Speicher vorkommt, und sonst false.
-
-      return false; // MUSS ERSETZT WERDEN
+      return zustaendigeListe(n).istDrin(n);
    }
 
    // ---------------------------------------------------------------------
