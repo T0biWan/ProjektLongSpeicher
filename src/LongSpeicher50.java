@@ -115,13 +115,20 @@ class LongSpeicher50 extends AbstractLongSpeicher {
       // Fuegt n in diesen Speicher ein und liefert true.
       
       Knoten[] vorgaengerReferenz = vorgaenger(n);
-      Knoten doppelgaenger;
       
-      if(vorgaengerReferenz[0] == EDK) vorgaengerReferenz[0] = new Knoten(n, EDK, EDK);
-      else {
-         doppelgaenger = new Knoten(n, vorgaengerReferenz[0].lub[0], EDK);
-         vorgaengerReferenz[0].lub[0] = doppelgaenger;
+      // Single Knoten einfügen
+      if(vorgaengerReferenz[0] == EDK) {
+         vorgaengerReferenz[0] = new Knoten(n, EDK, EDK);
+         return true;
       }
+      
+      // Doppelgänger einfügen
+      if(vorgaengerReferenz[0] != EDK) {
+         Knoten doppelgaenger = new Knoten(n, vorgaengerReferenz[0].lub[0], EDK);
+         vorgaengerReferenz[0].lub[0] = doppelgaenger;
+         return true;
+      }
+      
       return true;
    }
 

@@ -2,23 +2,23 @@ import java.util.Arrays;
 
 // Datei LongSpeicher51.java
 /* ------------------------------------------------------------------------
-Jedes Objekt der Klasse LongSpeicher51 ist ein Speicher, in dem man
-long-Werte sammeln (einfuegen, entfernen, suchen) kann.
-Vereinfachte Version: Doppelgaenger sind NICHT erlaubt (d.h. werden
-nicht eingefuegt).
-TERMINOLOGIE: Als "n-Knoten" wird hier ein Knoten bezeichnet, der in seinem
-data-Attribut n enthaelt. Welcher (long-) Wert mit n gemeint ist, muss aus
-dem Kontext folgen. Dummy-Knoten zaehlen nicht als n-Knoten (auch wenn sie
-n enthalten).
----------------------------------------------------------------------------
-Implementierung: Als binaerer Baum
-Jedes Knoten-Objekt enthaelt ein long Attribut und zwei Knoten[]-Attribute.
-Die Knoten[]-Attribute zeigen auf Reihungen der Laenge 1.
-Uebergibt man einer Methode eine solche Reihung r, so kann die Methode den
-Wert der Variable r[0] veraendern (z.B. auf einen anderen Knoten zeigen
-lassen). Mit diesem "Trick" wird eine Parameteruebergabe per Referenz
-(die es in Java offiziell nicht gibt) nachgeahmt.
------------------------------------------------------------------------- */
+ Jedes Objekt der Klasse LongSpeicher51 ist ein Speicher, in dem man
+ long-Werte sammeln (einfuegen, entfernen, suchen) kann.
+ Vereinfachte Version: Doppelgaenger sind NICHT erlaubt (d.h. werden
+ nicht eingefuegt).
+ TERMINOLOGIE: Als "n-Knoten" wird hier ein Knoten bezeichnet, der in seinem
+ data-Attribut n enthaelt. Welcher (long-) Wert mit n gemeint ist, muss aus
+ dem Kontext folgen. Dummy-Knoten zaehlen nicht als n-Knoten (auch wenn sie
+ n enthalten).
+ ---------------------------------------------------------------------------
+ Implementierung: Als binaerer Baum
+ Jedes Knoten-Objekt enthaelt ein long Attribut und zwei Knoten[]-Attribute.
+ Die Knoten[]-Attribute zeigen auf Reihungen der Laenge 1.
+ Uebergibt man einer Methode eine solche Reihung r, so kann die Methode den
+ Wert der Variable r[0] veraendern (z.B. auf einen anderen Knoten zeigen
+ lassen). Mit diesem "Trick" wird eine Parameteruebergabe per Referenz
+ (die es in Java offiziell nicht gibt) nachgeahmt.
+ ------------------------------------------------------------------------ */
 class LongSpeicher51 extends AbstractLongSpeicher {
    // ---------------------------------------------------------------------
    // Zum Ein-/Ausschalten von Testbefehlen:
@@ -43,10 +43,10 @@ class LongSpeicher51 extends AbstractLongSpeicher {
          this.rub = new Knoten[] { rub };
       }
    } // class Knoten
-   // ---------------------------------------------------------------------
-   // Ein leerer Baum besteht aus einem End-Dummy-Knoten EDK und einer
-   // Knoten-Reihung AR (der Laenge 1). AR[0] ist anfangs gleich dem EDK
-   // und ist spaeter der erste "richtige Knoten" (die Wurzel) des Baums
+     // ---------------------------------------------------------------------
+     // Ein leerer Baum besteht aus einem End-Dummy-Knoten EDK und einer
+     // Knoten-Reihung AR (der Laenge 1). AR[0] ist anfangs gleich dem EDK
+     // und ist spaeter der erste "richtige Knoten" (die Wurzel) des Baums
 
    private final Knoten   EDK = new Knoten(0, null, null);
    private final Knoten[] AR  = new Knoten[] { EDK };
@@ -66,9 +66,9 @@ class LongSpeicher51 extends AbstractLongSpeicher {
    private Knoten[] vorgaengerR(long n, Knoten[] hier) {
       // Eine rekursive Methode. Erledigt, was vorgaenger (ohne R)
       // versprochen hat (sollte nur von vorgaenger aufgerufen werden).
-      
-      if(lt(n, hier[0].data)) return vorgaengerR(n, hier[0].lub);
-      if(gt(n, hier[0].data)) return vorgaengerR(n, hier[0].rub);
+
+      if (lt(n, hier[0].data)) return vorgaengerR(n, hier[0].lub);
+      if (gt(n, hier[0].data)) return vorgaengerR(n, hier[0].rub);
       return hier;
    }
 
@@ -82,23 +82,20 @@ class LongSpeicher51 extends AbstractLongSpeicher {
       //   --               "[]"
       //   10               "[10]"
       //   10, 20, 30       "[10, 20, 30]"
-      StringBuilder builder = new StringBuilder();
-      builder.append('[');
-      toStringR(AR, builder);
-      builder.append(']');
-      return builder.toString();
+      if (AR[0] == EDK) return "[]";
+      StringBuilder sb = new StringBuilder("[");
+      toStringR(AR, sb);
+      sb.replace(sb.length() - 2, sb.length(), "]");
+      return sb.toString();
    }
 
    private void toStringR(Knoten[] hier, StringBuilder sb) {
       // Rekurisve Hilfsmethode fuer toString.
-      Knoten knoten = hier[0];
-      if (knoten == EDK) return;
-
-      sb.append(knoten.data);
-      if (knoten.lub[0] != EDK) sb.append(", ");
-      toStringR(knoten.lub, sb);
-      if (knoten.rub[0] != EDK) sb.append(", ");
-      toStringR(knoten.rub, sb);
+      if (hier[0] == EDK) return;
+      toStringR(hier[0].lub, sb);
+      sb.append(hier[0].data);
+      sb.append(", ");
+      toStringR(hier[0].rub, sb);
    }
 
    // ---------------------------------------------------------------------
@@ -107,11 +104,12 @@ class LongSpeicher51 extends AbstractLongSpeicher {
       // Liefert false, wenn n bereits in dieser Sammlung vorkommt.
       // Fuegt sonst n in diesen Speicher ein und liefert true.
 
-      Knoten[] vorgaengerReferenz = vorgaenger(n); // anfangs AR, zeigt auf ein Array, nicht mehr auf den Index 0
-      if(vorgaengerReferenz[0] != EDK) return false; // Wenn die Zahl schon vorhanden ist, dann füge sie nicht ein
+      Knoten[] vorgaengerReferenz = vorgaenger(n);
+      // Wenn die Zahl schon vorhanden ist, dann füge sie nicht ein
+      if (vorgaengerReferenz[0] != EDK) return false;
 
-      Knoten neuerKnoten = new Knoten(n, EDK, EDK);  // n als Knoten mit linkem und rechtem Unterbaum, die noch leer sind -> neues Blatt mit leeren Unterbäumen -> EDK
-      vorgaengerReferenz[0] = neuerKnoten; // vorgaengerReihung[0] ist jetzt nicht mehr AR, sondern der neue Knoten
+      Knoten neuerKnoten = new Knoten(n, EDK, EDK);
+      vorgaengerReferenz[0] = neuerKnoten;
       return true;
    }
 
@@ -122,48 +120,34 @@ class LongSpeicher51 extends AbstractLongSpeicher {
       // Loescht sonst den Knoten, der n enthaelt und liefert true.
 
       Knoten[] knotenReferenz = vorgaenger(n);
-      Knoten knoten = knotenReferenz[0];
 
-      // Wenn n gar nicht im Baum vorkommt, false zurückgeben
-      if(knoten == EDK) return false;
-
-      // Einfacher Fall - unser Knoten ist ein Blatt (hat keine Unterbäume)
-      // Referenz auf EDK setzen.
-      if(knoten.lub[0] == EDK && knoten.rub[0] == EDK) {
-         knotenReferenz[0] = EDK;
-         return true;
-      }
-
-      // Fall Teilbaum (1) - unser Knoten hat nur einen Teilbaum rechts, links ist EDK
-      // rechten Knoten "hochziehen"
-      if(knoten.lub[0] == EDK) {
-         knotenReferenz[0] = knoten.rub[0]; // Die Zahl, die gelöscht werden soll, wird überschrieben
-         return true;
-      }
-
-      // Fall Teilbaum (2) - unser Knoten hat nur einen Teilbaum links, rechts ist EDK
-      // linken Knoten "hochziehen"
-      if(knoten.rub[0] == EDK) {
-         knotenReferenz[0] = knoten.lub[0]; // überschreiben
-         return true;
-      }
-
-      // Komplizierter Fall: Knoten hat einen linken und einen rechten Unterbaum
-      // Linker Teilbaum wird umgehängt; rechter Teilbaum neu hinzugefügt.
+      //Falls n nicht im Speicher vorkommt
+      if (knotenReferenz[0] == EDK) return false;
       
-      Knoten[] vorgaengerReferenz = knoten.lub; // zum linken Unterbaum gehen
-      while (vorgaengerReferenz[0].rub[0] != EDK) { // Prüft, ob noch ein rechter Unterbaum dran hängt
-         vorgaengerReferenz = vorgaengerReferenz[0].rub; // überschreiben bis zum Maximum
+      // Falls der Knoten knoten[0] keinen linken Unterbaum hat
+      if (knotenReferenz[0].lub[0] == EDK) {
+         knotenReferenz[0] = knotenReferenz[0].rub[0];
+         return true;
       }
       
-      knotenReferenz[0].data = vorgaengerReferenz[0].data; // Daten aus MAX in den L Knoten kopieren
-      vorgaengerReferenz[0] = vorgaengerReferenz[0].lub[0];  
-//      if(vorgaengerReferenz[0].lub[0] != EDK) {
-//         vorgaengerReferenz[0] = vorgaengerReferenz[0].lub[0];
-//      } else {
-//         vorgaengerReferenz[0] = EDK; // Löschen
-//      }
-      return true;  
+      // Falls der Knoten knoten[0] keinen rechten Unterbaum hat
+      if (knotenReferenz[0].rub[0] == EDK) {
+         knotenReferenz[0] = knotenReferenz[0].lub[0];
+         return true;
+      }
+      
+      // Falls der Knoten knoten[0] zwei (nicht-leere) Unterbaeume hat
+      Knoten[] maxKnoten = knotenReferenz[0].lub;
+      while (maxKnoten[0].rub[0] != EDK)
+         maxKnoten = maxKnoten[0].rub;
+      
+      // Überschreiben
+      knotenReferenz[0].data = maxKnoten[0].data;
+      
+      // Rechten Knoten Maximum löschen
+      maxKnoten[0] = maxKnoten[0].lub[0];
+      return true;
+
    }
 
    // ---------------------------------------------------------------------
@@ -245,43 +229,43 @@ class LongSpeicher51 extends AbstractLongSpeicher {
       fsa.print();
       fsa.printB("fsa");
       printf("B ------------------------------ B%n");
-      
+
       // Doppelgänger sind nicht erlaubt. Dieser Befehl muss false liefern.
       printf("fsa.fuegeEin(95): %-5b%n", fsa.fuegeEin(95));
       fsa.print();
-      
+
       // Die 95 wird gelöscht und dann wieder eingefügt, muss true liefern.
       printf("fsa.loesche(95): %-5b%n", fsa.loesche(95));
       fsa.print();
       printf("fsa.fuegeEin(95): %-5b%n", fsa.fuegeEin(95));
       fsa.print();
-      
+
       // Die 95 wurde hinzugefügt, der Befehl muss true liefern.
       printf("fsa.istDrin(95): %-5b%n", fsa.istDrin(95));
       fsa.print();
-      
+
       // Test istDrin mit einer Zahl, die nicht im Speicher ist.
       printf("fsa.istDrin(97): %-5b%n", fsa.istDrin(97));
       fsa.print();
-      
+
       // Wurzelknoten löschen
       printf("fsa.loesche(65): %-5b%n", fsa.loesche(65));
       fsa.print();
-      
+
       // Vorgaenger testen am Wurzelknoten
       printf("fsa.vorgaenger(55): %s%n", fsa.vorgaenger(55)[0].data);
       fsa.print();
-      
+
       // Vorgaenger testen bei vorhandenen Einträgen
       printf("fsa.vorgaenger(35): %s%n", fsa.vorgaenger(35)[0].data);
       fsa.print();
-      
+
       // Vorgaenger testen bei nicht vorhandenen Einträgen
       printf("fsa.vorgaenger(100): %s%n", fsa.vorgaenger(100)[0].data);
       fsa.print();
- 
+
       printf("H ------------------------------ H%n");
       printf("LongSpeicher51: Das war's erstmal!%n%n");
    } // main
-   // ---------------------------------------------------------------------
+     // ---------------------------------------------------------------------
 } // class LongSpeicher51
