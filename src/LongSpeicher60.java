@@ -69,7 +69,17 @@ class LongSpeicher60 extends AbstractLongSpeicher {
       // Mit "die Daten der Liste TAB[i]" ist folgender String gemeint:
       // remove2(TAB[i].toString())
 
-      return "toString: Noch nicht implementiert!"; // MUSS ERSETZT WERDEN
+      StringBuilder sb = new StringBuilder("[");
+      for (LongSpeicher30 ls30 : TAB) {
+         String s = remove2(ls30.toString());
+         if (s.isEmpty()) continue;
+         sb.append(s + ", ");
+      }
+      if (sb.length() > 1) {
+         sb.replace(sb.length() - 2, sb.length(), "]");
+         return sb.toString();
+      }
+      return sb.toString() + "]";
    }
 
    private String remove2(String s) {
