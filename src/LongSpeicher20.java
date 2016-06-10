@@ -1,4 +1,4 @@
-// Datei LongSpeicher10.java
+// Datei LongSpeicher20.java
 /* ------------------------------------------------------------------------
  Jedes Objekt der Klasse LongSpeicher10 ist ein Speicher, in dem man
  long-Werte sammeln (einfuegen, entfernen, suchen) kann.
